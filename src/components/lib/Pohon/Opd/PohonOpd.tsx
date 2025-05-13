@@ -138,7 +138,7 @@ export const PohonOpd: React.FC<pohon> = ({ tema, deleteTrigger, show_all, show_
                     Authorization: `${token}`,
                     'Content-Type': 'application/json',
                 },
-            })
+            });
             if (!response.ok) {
                 alert("cant fetch data")
             }
@@ -216,9 +216,9 @@ export const PohonOpd: React.FC<pohon> = ({ tema, deleteTrigger, show_all, show_
                             `}
                         >
                             {tema.jenis_pohon === 'Operational N' ?
-                                <h1>Operational {tema.level_pohon - 6}  </h1>
+                                <h1>Operational {tema.level_pohon - 6}</h1>
                                 :
-                                <h1>{tema.jenis_pohon}</h1>
+                                <h1>{tema.jenis_pohon} {tema.id}</h1>
                             }
                         </div>
                         {/* BODY */}

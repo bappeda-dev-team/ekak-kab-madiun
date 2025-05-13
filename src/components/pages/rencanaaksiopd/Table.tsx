@@ -52,16 +52,23 @@ export const Table: React.FC<Table> = ({ kode_opd, tahun }) => {
             <table className="w-full">
                 <thead>
                     <tr className="bg-emerald-500 text-white">
-                        <th className="border-r border-b px-3 py-3 min-w-[50px] text-center">No</th>
-                        <th className="border-r border-b px-6 py-3 min-w-[300px]">Rencana Kinerja</th>
-                        <th className="border-r border-b px-6 py-3 min-w-[200px]">Indikator Rencana Kinerja</th>
-                        <th className="border-r border-b px-6 py-3 min-w-[100px]">Target</th>
-                        <th className="border-r border-b px-6 py-3 min-w-[100px]">Satuan</th>
-                        <th className="border-r border-b px-6 py-3 min-w-[100px]">Aksi/Kegiatan</th>
-                        <th className="border-r border-b px-6 py-3 min-w-[100px]">Sub Kegiatan</th>
-                        <th className="border-r border-b px-6 py-3 min-w-[100px]">Anggaran</th>
-                        <th className="border-r border-b px-6 py-3 min-w-[100px]">Pemilik</th>
-                        <th className="border-r border-b px-6 py-3 min-w-[100px]">Aksi</th>
+                        <th rowSpan={2} className="border-r border-b px-3 py-3 min-w-[50px] text-center">No</th>
+                        <th rowSpan={2} className="border-r border-b px-6 py-3 min-w-[300px]">Rencana Kinerja</th>
+                        <th rowSpan={2} className="border-r border-b px-6 py-3 min-w-[200px]">Indikator Rencana Kinerja</th>
+                        <th rowSpan={2} className="border-r border-b px-6 py-3 min-w-[100px]">Target</th>
+                        <th rowSpan={2} className="border-r border-b px-6 py-3 min-w-[100px]">Satuan</th>
+                        <th rowSpan={2} className="border-r border-b px-6 py-3 min-w-[100px]">Aksi/Kegiatan</th>
+                        <th rowSpan={2} className="border-r border-b px-6 py-3 min-w-[100px]">Sub Kegiatan</th>
+                        <th rowSpan={2} className="border-r border-b px-6 py-3 min-w-[100px]">Anggaran</th>
+                        <th rowSpan={2} className="border-r border-b px-6 py-3 min-w-[100px]">Pemilik</th>
+                        <th colSpan={3} className="border-r border-b px-6 py-3 min-w-[150px]">Jadwal Pelaksanaan</th>
+                        <th rowSpan={2} className="border-r border-b px-6 py-3 min-w-[100px]">Keterangan</th>
+                        <th rowSpan={2} className="border-r border-b px-6 py-3 min-w-[100px]">Aksi</th>
+                    </tr>
+                    <tr className="bg-emerald-500 text-white">
+                        <th className="border-r border-b px-6 py-3 min-w-[100px]">TW1</th>
+                        <th className="border-r border-b px-6 py-3 min-w-[100px]">TW2</th>
+                        <th className="border-r border-b px-6 py-3 min-w-[100px]">TW3</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,6 +98,10 @@ export const Table: React.FC<Table> = ({ kode_opd, tahun }) => {
                         <td className="border-r border-b px-6 py-4">sub kegiatan</td>
                         <td className="border-r border-b px-6 py-4">Rp.10.000.000</td>
                         <td className="border-r border-b px-6 py-4">Pemilik</td>
+                        <td className="border-r border-b px-6 py-4 text-center">12</td>
+                        <td className="border-r border-b px-6 py-4 text-center">34</td>
+                        <td className="border-r border-b px-6 py-4 text-center">14</td>
+                        <td className="border-r border-b px-6 py-4">Keterangan</td>
                         <td className="border-r border-b px-6 py-4">
                             <div className="flex flex-col justify-center items-center gap-2">
                                 <ButtonGreen

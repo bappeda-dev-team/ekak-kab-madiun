@@ -1,6 +1,6 @@
 'use client'
 
-import { TableAsn } from '@/components/pages/rincianbelanja/Table';
+import { TablePermasalahan } from '@/components/pages/permasalahan/TablePermasalahan';
 import { FiHome } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import { getOpdTahun, getUser } from '@/components/lib/Cookie';
@@ -9,6 +9,7 @@ import Maintenance from '@/components/global/Maintenance';
 const PermasalahanaOpd = () => {
 
     const [Tahun, setTahun] = useState<any>(null);
+    const [SelectedOpd, setSelectedOpd] = useState<any>(null);
     const [User, setUser] = useState<any>(null);
 
     useEffect(() => {
@@ -24,6 +25,13 @@ const PermasalahanaOpd = () => {
                     label: data.tahun.label,
                 }
                 setTahun(tahun_value);
+            }
+            if(data.opd){
+                const opd_value = {
+                    value: data.opd.value,
+                    label: data.opd.label,
+                }
+                setSelectedOpd(opd_value);
             }
         }
     },[]);
@@ -44,9 +52,9 @@ const PermasalahanaOpd = () => {
                     </div>
                 </div>
                 <div className="m-3">
-                    {/* <TableAsn 
+                    {/* <TablePermasalahan 
                         tahun={Tahun?.value}
-                        nip={User?.nip}
+                        kode_opd={(User?.roles == 'super_admin' || User?.roles == 'reviewer') ? SelectedOpd?.value : User?.kode_opd}
                     /> */}
                     <Maintenance />
                 </div>
