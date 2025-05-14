@@ -216,7 +216,7 @@ export const PohonOpd: React.FC<pohon> = ({ tema, deleteTrigger, show_all, show_
                             `}
                         >
                             {tema.jenis_pohon === 'Operational N' ?
-                                <h1>Operational {tema.level_pohon - 6}</h1>
+                                <h1>Operational {tema.level_pohon - 6} {tema.id}</h1>
                                 :
                                 <h1>{tema.jenis_pohon} {tema.id}</h1>
                             }
@@ -748,9 +748,9 @@ export const PohonOpdEdited: React.FC<pohon> = ({ tema, deleteTrigger }) => {
                         `}
                         >
                             {tema.jenis_pohon === 'Operational N' ?
-                                <h1>Operational {tema.level_pohon - 6}</h1>
+                                <h1>Operational {tema.level_pohon - 6} {tema.id}</h1>
                                 :
-                                <h1>{tema.jenis_pohon}</h1>
+                                <h1>{tema.jenis_pohon} {tema.id}</h1>
                             }
                         </div>
                         {/* BODY */}
@@ -1820,15 +1820,16 @@ export const TableCrosscuting = (props: any) => {
                         <h1 className='p-1'>Crosscutting ke {index + 1}</h1>
                         <ButtonRedBorder
                             onClick={() => {
-                                if ((data.status === 'crosscutting_disetujui' || data.status === 'crosscutting_disetujui_existing')) {
-                                    AlertNotification("Pohon Harus Ditolak/Pending", "Pohon harus berstatus ditolak atau Pending untuk bisa dihapus, hal ini mencegah pohon yang sudah diterima (beserta anak pohonnya) terhapus tanpa persetujuan ke dua OPD", "warning", 50000, true);
-                                } else {
-                                    AlertQuestion("Hapus?", "Hapus pohon crosscutting?", "question", "Hapus", "Batal").then((result) => {
-                                        if (result.isConfirmed) {
-                                            hapusPohonOpd(data.id);
-                                        }
-                                    });
-                                }
+                                AlertNotification("Maintenance", "Fitur hapus crosscutting masih dalam pengembangan", "info", 3000);
+                                // if ((data.status === 'crosscutting_disetujui' || data.status === 'crosscutting_disetujui_existing')) {
+                                //     AlertNotification("Pohon Harus Ditolak/Pending", "Pohon harus berstatus ditolak atau Pending untuk bisa dihapus, hal ini mencegah pohon yang sudah diterima (beserta anak pohonnya) terhapus tanpa persetujuan ke dua OPD", "warning", 50000, true);
+                                // } else {
+                                //     AlertQuestion("Hapus?", "Hapus pohon crosscutting?", "question", "Hapus", "Batal").then((result) => {
+                                //         if (result.isConfirmed) {
+                                //             hapusPohonOpd(data.id);
+                                //         }
+                                //     });
+                                // }
                             }}
                         >
                             Hapus

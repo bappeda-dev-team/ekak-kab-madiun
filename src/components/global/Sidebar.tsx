@@ -121,6 +121,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
 
   const [ManajemenResiko, setManajemenResiko] = useState<boolean | null>(null);
   const [Inovasi, setInovasi] = useState<boolean | null>(null);
+  const [OpdDiTematik, setOpdDiTematik] = useState<boolean | null>(null);
   const [RencanaKinerjaKAK, setRencanaKinerjaKAK] = useState<boolean | null>(null);
   const [RincianBelanja, setRincianBelanja] = useState<boolean | null>(null);
   const [LaporanRincianBelanja, setLaporanRincianBelanja] = useState<boolean | null>(null);
@@ -202,6 +203,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -287,6 +289,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -371,6 +374,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -455,6 +459,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -539,6 +544,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -623,6 +629,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -708,6 +715,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -792,6 +800,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -876,6 +885,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -960,6 +970,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -1044,6 +1055,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -1128,6 +1140,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -1212,6 +1225,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -1296,6 +1310,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -1380,6 +1395,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -1466,6 +1482,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -1551,6 +1568,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -1636,6 +1654,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -1721,6 +1740,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -1806,6 +1826,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -1891,6 +1912,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -1976,6 +1998,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -2062,6 +2085,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -2147,6 +2171,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -2232,6 +2257,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -2317,6 +2343,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -2402,6 +2429,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -2487,6 +2515,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -2572,6 +2601,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -2612,6 +2642,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setTematikKota(false);
       setSubTematik(false);
       setKotaPohonKinerjaKota(false);
+      setOpdDiTematik(false);
       setPerencanaanOPD(true);
       setMasterUsulanOpd(true);
       setRincianBelanja(false);
@@ -2659,6 +2690,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setTematikKota(false);
       setSubTematik(false);
       setKotaPohonKinerjaKota(false);
+      setOpdDiTematik(false);
       setPerencanaanOPD(true);
       setMasterUsulanOpd(true);
       setRincianBelanja(false);
@@ -2706,6 +2738,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setTematikKota(false);
       setSubTematik(false);
       setKotaPohonKinerjaKota(false);
+      setOpdDiTematik(false);
       setPerencanaanOPD(true);
       setMasterUsulanOpd(true);
       setRincianBelanja(false);
@@ -2753,6 +2786,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setTematikKota(false);
       setSubTematik(false);
       setKotaPohonKinerjaKota(false);
+      setOpdDiTematik(false);
       setPerencanaanOPD(true);
       setMasterUsulanOpd(true);
       setRincianBelanja(false);
@@ -2845,6 +2879,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -2930,6 +2965,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -3015,6 +3051,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -3106,6 +3143,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -3191,6 +3229,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setPerencanaanManajemenResiko(false);
       setRincianBelanja(true);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -3235,6 +3274,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setMasterUsulanOpd(false);
       setMasterUsulanMusrenbang(false);
       setMasterUsulanMandatori(false);
+      setOpdDiTematik(false);
       setMasterUsulanPokir(false);
       setMasterUsulanInisiatif(false);
       setRincianBelanja(false);
@@ -3286,6 +3326,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setMasterUsulanMandatori(false);
       setMasterUsulanPokir(false);
       setMasterUsulanInisiatif(false);
+      setOpdDiTematik(false);
       setTujuanOpd(false);
       setPohonKinerjaOpd(false);
       setRincianBelanja(false);
@@ -3334,6 +3375,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setMasterUsulanMandatori(false);
       setMasterUsulanPokir(false);
       setMasterUsulanInisiatif(false);
+      setOpdDiTematik(false);
       setTujuanOpd(false);
       setPohonKinerjaOpd(false);
       setRincianBelanja(false);
@@ -3374,6 +3416,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setMasterUser(false);
       setTematikKota(false);
       setSubTematik(false);
+      setOpdDiTematik(false);
       setPerencanaanKota(true);
       setPerencanaanOPD(false);
       setSubKegiatanOpd(false);
@@ -3398,6 +3441,92 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setManajemenResiko(true);
       setPohonCascading(false);
       setPohonCascadingOpd(false);
+    }
+    if (url == "/listopd") {
+      // SLIDE MENU
+      // super_admin
+      setDataMaster(false);
+      setDataMasterOpd(false);
+      setMasterProgramKegiatan(false);
+      setPerencanaanKota(false);
+      setRPJMD(false);
+      // admin_opd
+      setPerencanaanOPD(false);
+      setSubKegiatanOpd(false);
+      setMasterUsulanOpd(false);
+      setRenstra(false);
+      // asn
+      setPerencanaan(false);
+      setUsulanLaporan(false);
+      setLaporan(true);
+      setLaporanUsulan(false);
+      setReview(false);
+
+      // HALAMAN
+      setDashboard(false);
+      // data master
+      setMasterOPD(false);
+      setKelompokAnggaran(false);
+      setMasterPegawai(false);
+      setMasterPeriode(false);
+      setLevelPohon(false);
+      setMasterJabatan(false);
+      setMasterUsulanPemda(false);
+      // masterprogramkegiatan
+      setMasterUrusan(false);
+      setMasterBidangUrusan(false);
+      setMasterProgram(false);
+      setMasterKegiatan(false);
+      setMasterSubKegiatan(false);
+      setMasterLembaga(false);
+      setMasterUser(false);
+      setMasterRole(false);
+      // perencanaan pemda
+      setTematikKota(false);
+      setKotaPohonKinerjaKota(false);
+      // RPJMD
+      setVisi(false);
+      setMisi(false);
+      setTujuanPemda(false);
+      setSasaranPemda(false);
+      setIKU(false);
+      // perencanaan opd
+      setPohonKinerjaOpd(false);
+      setPohonCascadingOpd(false);
+      setPermasalahanOpd(false);
+      setPermasalahan(false);
+      setIsuStrategis(false);
+      setUserOpd(false);
+      setRencanaAksiOpd(false);
+      //Renstra
+      setTujuanOpd(false);
+      setSasaranOpd(false);
+      setIKUOpd(false);
+      setSubKegiatanOpd(false);
+      setMasterUsulanOpd(false);
+      //perencanaan asn
+      setRencanaKinerja(false);
+      setPohonCascading(false);
+      setRincianBelanja(false);
+      setPerencanaanManajemenResiko(false);
+      //laporan
+      setOpdDiTematik(true);
+      setReviewPemda(false);
+      setReviewOpd(false);
+      setLaporanMusrenbang(false);
+      setLaporanPokokPikiran(false);
+      setLaporanMandatori(false);
+      setLaporanInisiatif(false);
+      setRenstraView(false);
+      setTujuanOpdView(false);
+      setSasaranOpdView(false);
+      setIkuOpdView(false);
+      setManajemenResiko(false);
+      setInovasi(false);
+      setRencanaKinerjaKAK(false);
+      setLaporanRincianBelanja(false)
+      setLaporanRenstra(false);
+      setLaporanCascadingOpd(false);
     }
     if (url == "/reviewpemda") {
       // SLIDE MENU
@@ -3467,6 +3596,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(true);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -3552,6 +3682,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(true);
       setLaporanMusrenbang(false);
@@ -3637,6 +3768,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -3722,6 +3854,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -3807,6 +3940,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -3892,6 +4026,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -3977,6 +4112,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -4062,6 +4198,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -4147,6 +4284,7 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
       setRincianBelanja(false);
       setPerencanaanManajemenResiko(false);
       //laporan
+      setOpdDiTematik(false);
       setReviewPemda(false);
       setReviewOpd(false);
       setLaporanMusrenbang(false);
@@ -4738,6 +4876,12 @@ export const Sidebar = ({ isZoomed, isOpen, toggleSidebar }: SidebarProps) => {
                 </li>
               </Link>
             </div>
+            <Link href="listopd">
+              <li className={`flex items-center gap-x-2 text-sm cursor-pointer p-2 rounded-xl ${OpdDiTematik ? "bg-white text-gray-800" : "hover:bg-slate-500"}`}>
+                <TbListDetails className="text-xl" />
+                <span className={`${!isOpen && 'hidden'} origin-left duration-200`}>List OPD di Tematik</span>
+              </li>
+            </Link>
             {/* LABEL LAPORAN REVIEW */}
             <li
               className="flex justify-between items-center gap-x-2 cursor-pointer p-2 hover:bg-slate-500 rounded-xl transition-all duration-300 ease-in-out"

@@ -235,10 +235,10 @@ export const ModalRencanaKinerja: React.FC<ModalProps> = ({ isOpen, onClose, id,
                     if (data.sasaran_opd_id) {
                         const sasaran = {
                             id: data.sasaran_opd_id,
-                            nama_sasaran_opd: data.nama_pohon,
-                            tahun_awal: '',
-                            tahun_akhir: '',
-                            jenis_periode: '',
+                            nama_sasaran_opd: data.nama_sasaran_opd,
+                            tahun_awal: data.tahun_awal,
+                            tahun_akhir: data.tahun_akhir,
+                            jenis_periode: data.jenis_periode,
                             indikator: [],
                         }
                         setSasaran(sasaran);
@@ -450,7 +450,7 @@ export const ModalRencanaKinerja: React.FC<ModalProps> = ({ isOpen, onClose, id,
             tahun: String(tahun),
             kode_opd: kode_opd,
             pegawai_id: nip,
-            indikator: data.indikator.map((ind) => ({
+            indikator: (data.indikator || []).map((ind) => ({
                 nama_indikator: ind.nama_indikator,
                 ...(roles == "level_1" && {
                     rumus_perhitungan: ind.rumus_perhitungan,
@@ -474,7 +474,7 @@ export const ModalRencanaKinerja: React.FC<ModalProps> = ({ isOpen, onClose, id,
             tahun: String(tahun),
             kode_opd: kode_opd,
             pegawai_id: nip,
-            indikator: data.indikator.map((ind) => ({
+            indikator: (data.indikator || []).map((ind) => ({
                 id_indikator: ind.id_indikator,
                 nama_indikator: ind.nama_indikator,
                 ...(roles == "level_1" && {
@@ -492,10 +492,7 @@ export const ModalRencanaKinerja: React.FC<ModalProps> = ({ isOpen, onClose, id,
             if (metode === "baru") return formDataNew;
             return {}; // Default jika metode tidak sesuai
         };
-        if (roles == 'level_1' && !Sasaran) {
-            AlertNotification('Sasaran OPD', 'Sasaran OPD wajib di pilih', 'warning', 2000);
-        }
-        else if (Rekin === '') {
+        if (Rekin === '') {
             AlertNotification('Rencana Kinerja', 'rencana kinerja wajib terisi', 'warning', 2000);
         } else {
             // metode === 'baru' && console.log("baru :", formDataNew);
@@ -557,7 +554,7 @@ export const ModalRencanaKinerja: React.FC<ModalProps> = ({ isOpen, onClose, id,
             <div className="fixed inset-0 bg-black opacity-30" onClick={handleClose}></div>
             <div className="bg-white rounded-lg p-5 z-10 w-3/5 text-start max-h-[90%] overflow-auto">
                 <div className="w-max-[500px] py-2 border-b">
-                    <h1 className="text-xl uppercase text-center">{metode === 'baru' ? "Tambah" : "Edit"} Rencana Kinerja {id}</h1>
+                    <h1 className="text-xl uppercase text-center">{metode === 'baru' ? "Tambah" : "Edit"} Rencana Kinerja</h1>
                 </div>
                 {LoadingDetail ?
                     <LoadingBeat />

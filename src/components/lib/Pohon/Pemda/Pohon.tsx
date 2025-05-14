@@ -270,7 +270,7 @@ export const Pohon: React.FC<pohon> = ({ tema, tahun, deleteTrigger, user, show_
                             `}
                         >
                             <div className="flex flex-wrap items-center justify-center gap-1">
-                                <h1>{tema.jenis_pohon}</h1>
+                                <h1>{tema.jenis_pohon} {tema.id}</h1>
                                 {tema.is_active === false &&
                                     <button className="px-2 bg-red-600 text-white rounded-xl cursor-default">NON-AKTIF</button>
                                 }
@@ -862,7 +862,7 @@ export const PohonEdited: React.FC<pohon> = ({ tema, deleteTrigger, user, show_a
                             ${(tema.jenis_pohon === "Operational" || tema.jenis_pohon === "Operational N") && 'border-green-500 text-green-500'}
                         `}
                         >
-                            <h1>{tema.jenis_pohon}</h1>
+                            <h1>{tema.jenis_pohon} {tema.id}</h1>
                         </div>
                         {/* BODY */}
                         <div className="flex justify-center my-3">
