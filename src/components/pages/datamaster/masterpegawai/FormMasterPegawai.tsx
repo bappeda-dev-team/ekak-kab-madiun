@@ -161,8 +161,9 @@ export const FormMasterPegawai = () => {
                                     placeholder="masukkan NIP"
                                     value={field.value || Nip}
                                     onChange={(e) => {
-                                        field.onChange(e);
-                                        setNip(e.target.value);
+                                        const newValue = e.target.value.replace(/\s/g, ''); // Hilangkan semua spasi
+                                        field.onChange(newValue);
+                                        setNip(newValue);
                                     }}
                                 />
                                 {errors.nip ?
@@ -452,8 +453,9 @@ export const FormEditMasterPegawai = () => {
                                     placeholder="masukkan NIP"
                                     value={field.value || Nip}
                                     onChange={(e) => {
-                                        field.onChange(e);
-                                        setNip(e.target.value);
+                                        const newValue = e.target.value.replace(/\s/g, ''); // Hilangkan semua spasi
+                                        field.onChange(newValue);
+                                        setNip(newValue);
                                     }}
                                 />
                                 {errors.nip ?
