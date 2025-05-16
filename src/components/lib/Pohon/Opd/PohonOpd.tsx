@@ -418,6 +418,24 @@ export const PohonOpd: React.FC<pohon> = ({ tema, deleteTrigger, show_all, show_
                                 </div>
                             </>
                         }
+                        {/* BUTTON CROSSCUTTING KHUSUS POHON PEMDA */}
+                        <div
+                            className={`flex justify-evenly border my-3 py-3 rounded-lg bg-white hide-on-capture
+                                ${tema.jenis_pohon === "Strategic Pemda" && 'border-black'}
+                                ${tema.jenis_pohon === "Tactical Pemda" && 'border-black'}
+                                ${tema.jenis_pohon === "Operational Pemda" && 'border-black'}
+                                ${tema.jenis_pohon === "Operational N" && 'border-green-500'}
+                                `}
+                        >
+                            <ButtonGreenBorder
+                                className='flex items-center gap-1'
+                                onClick={handleCross}
+                            >
+                                <TbLayersLinked />
+                                Crosscutting
+                            </ButtonGreenBorder>
+                            <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} />
+                        </div>
                         {/* BUTTON ACTION INSIDE BOX CEK CROSSCUTTING */}
                         <div
                             className={`flex justify-evenly border my-3 py-3 rounded-lg bg-white hide-on-capture
@@ -434,7 +452,7 @@ export const PohonOpd: React.FC<pohon> = ({ tema, deleteTrigger, show_all, show_
                                 <TbPrinter />
                                 Cetak
                             </ButtonSky>
-                            {!['Strategic Pemda', 'Tactical Pemda', 'Operational Pemda'].includes(tema.jenis_pohon) &&
+                            {/* {!['Strategic Pemda', 'Tactical Pemda', 'Operational Pemda'].includes(tema.jenis_pohon) && */}
                                 <ButtonSkyBorder
                                     onClick={() => {
                                         fetchPohonCross(tema.id);
@@ -444,7 +462,7 @@ export const PohonOpd: React.FC<pohon> = ({ tema, deleteTrigger, show_all, show_
                                     <TbDeviceTabletSearch className="mr-1" />
                                     {DetailCross ? "Sembunyikan" : "Cek Crosscutting"}
                                 </ButtonSkyBorder>
-                            }
+                            {/* } */}
                         </div>
                         {/* footer */}
                         <div className="flex justify-evenly my-3 py-3 hide-on-capture">
@@ -948,6 +966,24 @@ export const PohonOpdEdited: React.FC<pohon> = ({ tema, deleteTrigger }) => {
                                 </div>
                             </>
                         }
+                        {/* BUTTON CROSSCUTTING KHUSUS POHON PEMDA */}
+                        <div
+                            className={`flex justify-evenly border my-3 py-3 rounded-lg bg-white hide-on-capture
+                                ${tema.jenis_pohon === "Strategic Pemda" && 'border-black'}
+                                ${tema.jenis_pohon === "Tactical Pemda" && 'border-black'}
+                                ${tema.jenis_pohon === "Operational Pemda" && 'border-black'}
+                                ${tema.jenis_pohon === "Operational N" && 'border-green-500'}
+                                `}
+                        >
+                            <ButtonGreenBorder
+                                className='flex items-center gap-1'
+                                onClick={handleCross}
+                            >
+                                <TbLayersLinked />
+                                Crosscutting
+                            </ButtonGreenBorder>
+                            <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} />
+                        </div>
                         {/* BUTTON ACTION INSIDE BOX CEK CROSSCUTTING */}
                         {!['Strategic Pemda', 'Tactical Pemda', 'Operational Pemda'].includes(tema.jenis_pohon) &&
                             <div
