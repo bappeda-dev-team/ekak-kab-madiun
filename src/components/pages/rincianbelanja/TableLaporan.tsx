@@ -206,11 +206,11 @@ export const TableLaporan: React.FC<TableLaporan> = ({ tahun, kode_opd, nama_opd
                             {data.rincian_belanja.map((rekin: RincianBelanja, index_rb: number) => (
                                 <React.Fragment key={index_rb}>
                                     <tr>
-                                        <td rowSpan={rekin.indikator.length} className="border-r border-b px-6 py-4">{index + 1}.{index_rb + 1}</td>
-                                        <td rowSpan={rekin.indikator.length} className="border-r border-b px-6 py-4">{rekin.nama_pegawai || "-"}</td>
-                                        <td rowSpan={rekin.indikator.length} className="border-r border-b px-6 py-4">{rekin.rencana_kinerja || "-"}</td>
+                                        <td rowSpan={rekin.indikator ? rekin.indikator.length : 2} className="border-r border-b px-6 py-4">{index + 1}.{index_rb + 1}</td>
+                                        <td rowSpan={rekin.indikator ? rekin.indikator.length : 2} className="border-r border-b px-6 py-4">{rekin.nama_pegawai || "-"}</td>
+                                        <td rowSpan={rekin.indikator ? rekin.indikator.length : 2} className="border-r border-b px-6 py-4">{rekin.rencana_kinerja || "-"}</td>
                                         {/* Kolom indikator pertama */}
-                                        {rekin.indikator.length === 0 || rekin.indikator === null ? (
+                                        {rekin.indikator === null ? (
                                             <React.Fragment>
                                                 <td className="border-r border-b px-6 py-4">-</td>
                                                 <td className="border-r border-b px-6 py-4 text-center">-</td>
@@ -227,21 +227,28 @@ export const TableLaporan: React.FC<TableLaporan> = ({ tahun, kode_opd, nama_opd
                                                 )}
                                             </React.Fragment>
                                         )}
-                                        <td rowSpan={rekin.indikator.length} className="border-r border-b px-6 py-4">Rp.{formatRupiah(rekin.total_anggaran || 0)}</td>
+                                        <td rowSpan={rekin.indikator ? rekin.indikator.length : 2} className="border-r border-b px-6 py-4">Rp.{formatRupiah(rekin.total_anggaran || 0)}</td>
                                     </tr>
                                     {/* Baris-baris untuk indikator selanjutnya */}
-                                    {rekin.indikator.slice(1).map((i: IndikatorRencanaKinerja, index_i) => (
-                                        <tr key={i.id_indikator || index_i}>
-                                            <td className="border-r border-b px-6 py-4">{i.nama_indikator || "-"}</td>
-                                            {i.targets.length === 0 || i.targets === null ? (
-                                                <td className="border-r border-b px-6 py-4 text-center">-</td>
-                                            ) : (
-                                                i.targets.map((t: Target, index_t: number) => (
-                                                    <td key={t.id_target || index_t} className="border-r border-b px-6 py-4 text-center">{t.target || "-"} {t.satuan || "-"}</td>
-                                                ))
-                                            )}
-                                        </tr>
-                                    ))}
+                                    {rekin.indikator ?
+                                        rekin.indikator.slice(1).map((i: IndikatorRencanaKinerja, index_i) => (
+                                            <tr key={i.id_indikator || index_i}>
+                                                <td className="border-r border-b px-6 py-4">{i.nama_indikator || "-"}</td>
+                                                {i.targets.length === 0 || i.targets === null ? (
+                                                    <td className="border-r border-b px-6 py-4 text-center">-</td>
+                                                ) : (
+                                                    i.targets.map((t: Target, index_t: number) => (
+                                                        <td key={t.id_target || index_t} className="border-r border-b px-6 py-4 text-center">{t.target || "-"} {t.satuan || "-"}</td>
+                                                    ))
+                                                )}
+                                            </tr>
+                                        ))
+                                        :
+                                            <tr>
+                                                <td className="border-r border-b px-6 py-4">-</td>
+                                                    <td className="border-r border-b px-6 py-4 text-center">-</td>
+                                            </tr>
+                                    }
                                     {rekin.rencana_aksi === null ?
                                         <tr>
                                             <td colSpan={5} className="border-r border-b px-6 py-4 text-red-500">Renaksi Belum di tambahkan di rencana kinerja</td>
