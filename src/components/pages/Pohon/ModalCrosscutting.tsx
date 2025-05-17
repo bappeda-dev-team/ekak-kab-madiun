@@ -16,6 +16,7 @@ interface modal {
     onClose: () => void;
     id?: number | null;
     level?: number;
+    nama_pohon: string;
     // onSuccess: () => void;
 }
 interface FormValue {
@@ -40,7 +41,7 @@ type target = {
     satuan: string;
 };
 
-export const ModalAddCrosscutting: React.FC<modal> = ({isOpen, onClose, id}) => {
+export const ModalAddCrosscutting: React.FC<modal> = ({isOpen, onClose, id, nama_pohon}) => {
 
     const {
       control,
@@ -209,6 +210,14 @@ export const ModalAddCrosscutting: React.FC<modal> = ({isOpen, onClose, id}) => 
                 >
                     <div className="w-max-[500px] py-2 border-b text-center">
                        Cross Cutting
+                    </div>
+                    <div className="flex flex-col py-3">
+                        <label
+                            className="uppercase text-xs font-bold text-gray-700 my-2"
+                        >
+                            Pohon :
+                        </label>
+                        <div className="border px-4 py-2 rounded-lg">{nama_pohon || "-"}</div>
                     </div>
                     <div className="flex flex-col py-3">
                         <label

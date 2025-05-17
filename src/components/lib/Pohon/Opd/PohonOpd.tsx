@@ -253,7 +253,7 @@ export const PohonOpd: React.FC<pohon> = ({ tema, deleteTrigger, show_all, show_
                                     <TbLayersLinked className="mr-1" />
                                     CrossCuting
                                 </ButtonGreenBorder>
-                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} />
+                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} nama_pohon={tema.nama_pohon} />
                                 <ButtonRedBorder
                                     onClick={() => {
                                         AlertQuestion("Hapus?", "DATA POHON yang terkait kebawah jika ada akan terhapus juga", "question", "Hapus", "Batal").then((result) => {
@@ -296,7 +296,7 @@ export const PohonOpd: React.FC<pohon> = ({ tema, deleteTrigger, show_all, show_
                                     <TbLayersLinked className="mr-1" />
                                     CrossCuting
                                 </ButtonGreenBorder>
-                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} />
+                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} nama_pohon={tema.nama_pohon} />
                                 <ButtonRedBorder
                                     onClick={() => {
                                         AlertQuestion("Hapus?", "DATA POHON yang terkait kebawah jika ada akan terhapus juga", "question", "Hapus", "Batal").then((result) => {
@@ -337,7 +337,7 @@ export const PohonOpd: React.FC<pohon> = ({ tema, deleteTrigger, show_all, show_
                                     <TbLayersLinked className="mr-1" />
                                     CrossCuting
                                 </ButtonGreenBorder>
-                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} />
+                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} nama_pohon={tema.nama_pohon} />
                                 <ButtonRedBorder
                                     onClick={() => {
                                         AlertQuestion("Hapus?", "DATA POHON yang terkait kebawah jika ada akan terhapus juga", "question", "Hapus", "Batal").then((result) => {
@@ -379,7 +379,7 @@ export const PohonOpd: React.FC<pohon> = ({ tema, deleteTrigger, show_all, show_
                                     <TbLayersLinked className="mr-1" />
                                     CrossCuting
                                 </ButtonGreenBorder>
-                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} />
+                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} nama_pohon={tema.nama_pohon} />
                                 <ButtonRedBorder
                                     onClick={() => {
                                         AlertQuestion("Hapus?", "DATA POHON yang terkait kebawah jika ada akan terhapus juga", "question", "Hapus", "Batal").then((result) => {
@@ -396,6 +396,26 @@ export const PohonOpd: React.FC<pohon> = ({ tema, deleteTrigger, show_all, show_
                                     <TbTrash className='mr-1' />
                                     Hapus
                                 </ButtonRedBorder>
+                            </div>
+                        }
+                        {/* BUTTON CROSSCUTTING KHUSUS POHON PEMDA */}
+                        {['Strategic Pemda', 'Tactical Pemda', 'Operational Pemda'].includes(tema.jenis_pohon) && 
+                            <div
+                                className={`flex justify-evenly border my-3 py-3 rounded-lg bg-white hide-on-capture
+                                    ${tema.jenis_pohon === "Strategic Pemda" && 'border-black'}
+                                    ${tema.jenis_pohon === "Tactical Pemda" && 'border-black'}
+                                    ${tema.jenis_pohon === "Operational Pemda" && 'border-black'}
+                                    ${tema.jenis_pohon === "Operational N" && 'border-green-500'}
+                                    `}
+                            >
+                                <ButtonGreenBorder
+                                    className='flex items-center gap-1'
+                                    onClick={handleCross}
+                                >
+                                    <TbLayersLinked />
+                                    Crosscutting
+                                </ButtonGreenBorder>
+                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} nama_pohon={tema.nama_pohon} />
                             </div>
                         }
                         {/* DETAIL DATA CROSSCUTTING */}
@@ -418,24 +438,6 @@ export const PohonOpd: React.FC<pohon> = ({ tema, deleteTrigger, show_all, show_
                                 </div>
                             </>
                         }
-                        {/* BUTTON CROSSCUTTING KHUSUS POHON PEMDA */}
-                        <div
-                            className={`flex justify-evenly border my-3 py-3 rounded-lg bg-white hide-on-capture
-                                ${tema.jenis_pohon === "Strategic Pemda" && 'border-black'}
-                                ${tema.jenis_pohon === "Tactical Pemda" && 'border-black'}
-                                ${tema.jenis_pohon === "Operational Pemda" && 'border-black'}
-                                ${tema.jenis_pohon === "Operational N" && 'border-green-500'}
-                                `}
-                        >
-                            <ButtonGreenBorder
-                                className='flex items-center gap-1'
-                                onClick={handleCross}
-                            >
-                                <TbLayersLinked />
-                                Crosscutting
-                            </ButtonGreenBorder>
-                            <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} />
-                        </div>
                         {/* BUTTON ACTION INSIDE BOX CEK CROSSCUTTING */}
                         <div
                             className={`flex justify-evenly border my-3 py-3 rounded-lg bg-white hide-on-capture
@@ -801,7 +803,7 @@ export const PohonOpdEdited: React.FC<pohon> = ({ tema, deleteTrigger }) => {
                                     <TbLayersLinked className="mr-1" />
                                     CrossCuting
                                 </ButtonGreenBorder>
-                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} />
+                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} nama_pohon={tema.nama_pohon} />
                                 <ButtonRedBorder
                                     onClick={() => {
                                         AlertQuestion("Hapus?", "DATA POHON yang terkait kebawah jika ada akan terhapus juga", "question", "Hapus", "Batal").then((result) => {
@@ -844,7 +846,7 @@ export const PohonOpdEdited: React.FC<pohon> = ({ tema, deleteTrigger }) => {
                                     <TbLayersLinked className="mr-1" />
                                     CrossCuting
                                 </ButtonGreenBorder>
-                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} />
+                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} nama_pohon={tema.nama_pohon} />
                                 <ButtonRedBorder
                                     onClick={() => {
                                         AlertQuestion("Hapus?", "DATA POHON yang terkait kebawah jika ada akan terhapus juga", "question", "Hapus", "Batal").then((result) => {
@@ -885,7 +887,7 @@ export const PohonOpdEdited: React.FC<pohon> = ({ tema, deleteTrigger }) => {
                                     <TbLayersLinked className="mr-1" />
                                     CrossCuting
                                 </ButtonGreenBorder>
-                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} />
+                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} nama_pohon={tema.nama_pohon} />
                                 <ButtonRedBorder
                                     onClick={() => {
                                         AlertQuestion("Hapus?", "DATA POHON yang terkait kebawah jika ada akan terhapus juga", "question", "Hapus", "Batal").then((result) => {
@@ -927,7 +929,7 @@ export const PohonOpdEdited: React.FC<pohon> = ({ tema, deleteTrigger }) => {
                                     <TbLayersLinked className="mr-1" />
                                     CrossCuting
                                 </ButtonGreenBorder>
-                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} />
+                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} nama_pohon={tema.nama_pohon} />
                                 <ButtonRedBorder
                                     onClick={() => {
                                         AlertQuestion("Hapus?", "DATA POHON yang terkait kebawah jika ada akan terhapus juga", "question", "Hapus", "Batal").then((result) => {
@@ -944,6 +946,26 @@ export const PohonOpdEdited: React.FC<pohon> = ({ tema, deleteTrigger }) => {
                                     <TbTrash className='mr-1' />
                                     Hapus
                                 </ButtonRedBorder>
+                            </div>
+                        }
+                        {/* BUTTON CROSSCUTTING KHUSUS POHON PEMDA */}
+                        {['Strategic Pemda', 'Tactical Pemda', 'Operational Pemda'].includes(tema.jenis_pohon) && 
+                            <div
+                                className={`flex justify-evenly border my-3 py-3 rounded-lg bg-white hide-on-capture
+                                    ${tema.jenis_pohon === "Strategic Pemda" && 'border-black'}
+                                    ${tema.jenis_pohon === "Tactical Pemda" && 'border-black'}
+                                    ${tema.jenis_pohon === "Operational Pemda" && 'border-black'}
+                                    ${tema.jenis_pohon === "Operational N" && 'border-green-500'}
+                                    `}
+                            >
+                                <ButtonGreenBorder
+                                    className='flex items-center gap-1'
+                                    onClick={handleCross}
+                                >
+                                    <TbLayersLinked />
+                                    Crosscutting
+                                </ButtonGreenBorder>
+                                <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} nama_pohon={tema.nama_pohon} />
                             </div>
                         }
                         {/* DETAIL DATA CROSSCUTTING */}
@@ -966,24 +988,6 @@ export const PohonOpdEdited: React.FC<pohon> = ({ tema, deleteTrigger }) => {
                                 </div>
                             </>
                         }
-                        {/* BUTTON CROSSCUTTING KHUSUS POHON PEMDA */}
-                        <div
-                            className={`flex justify-evenly border my-3 py-3 rounded-lg bg-white hide-on-capture
-                                ${tema.jenis_pohon === "Strategic Pemda" && 'border-black'}
-                                ${tema.jenis_pohon === "Tactical Pemda" && 'border-black'}
-                                ${tema.jenis_pohon === "Operational Pemda" && 'border-black'}
-                                ${tema.jenis_pohon === "Operational N" && 'border-green-500'}
-                                `}
-                        >
-                            <ButtonGreenBorder
-                                className='flex items-center gap-1'
-                                onClick={handleCross}
-                            >
-                                <TbLayersLinked />
-                                Crosscutting
-                            </ButtonGreenBorder>
-                            <ModalAddCrosscutting isOpen={Cross} onClose={handleCross} id={tema.id} />
-                        </div>
                         {/* BUTTON ACTION INSIDE BOX CEK CROSSCUTTING */}
                         {!['Strategic Pemda', 'Tactical Pemda', 'Operational Pemda'].includes(tema.jenis_pohon) &&
                             <div
@@ -1848,11 +1852,10 @@ export const TableCrosscuting = (props: any) => {
     const { item, hapusPohonOpd } = props;
 
     return (
-        <div className="flex flex-col w-full">
-
+        <div className={`flex flex-col w-full`}>
             {item.map((data: any, index: number) => (
                 <React.Fragment key={index}>
-                    <div className="flex flex-wrap w-full bg-white p-2 mt-2 justify-between items-center rounded-t-xl">
+                    <div className={`flex flex-wrap w-full bg-white p-2 mt-2 justify-between items-center rounded-t-xl border`}>
                         <h1 className='p-1'>Crosscutting ke {index + 1}</h1>
                         <ButtonRedBorder
                             onClick={() => {
