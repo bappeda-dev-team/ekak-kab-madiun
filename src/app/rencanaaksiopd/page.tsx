@@ -5,6 +5,7 @@ import { FiHome } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import { getOpdTahun, getUser } from '@/components/lib/Cookie';
 import Maintenance from '@/components/global/Maintenance';
+import { OpdTahunNull, TahunNull } from '@/components/global/OpdTahunNull';
 
 const RencanaAksiOpd = () => {
 
@@ -41,7 +42,7 @@ const RencanaAksiOpd = () => {
             <div className="flex items-center">
                 <a href="/" className="mr-1"><FiHome /></a>
                 <p className="mr-1">/ Perencanaan OPD</p>
-                <p>/ Rencana Aksi Opd</p>
+                <p>/ Rencana Aksi OPD</p>
             </div>
             <div className="mt-3 rounded-xl shadow-lg border">
                 <div className="flex flex-wrap items-center justify-between border-b px-5 py-5">
@@ -51,11 +52,18 @@ const RencanaAksiOpd = () => {
                     </div>
                 </div>
                 <div className="m-3">
-                    {/* <Table 
-                        tahun={Tahun?.value}
-                        kode_opd={(User?.roles == 'super_admin' || User?.roles == 'reviewer') ? SelectedOpd?.value : User?.kode_opd}
-                    /> */}
-                    <Maintenance />
+                    {(User?.roles == 'super_admin' || User?.roles == 'reviewer') && (SelectedOpd?.value === undefined || Tahun?.value === undefined) ? 
+                        <OpdTahunNull />
+                    :
+                    Tahun?.value === undefined ? 
+                        <TahunNull />
+                    :
+                        <Table 
+                            tahun={Tahun?.value}
+                            kode_opd={(User?.roles == 'super_admin' || User?.roles == 'reviewer') ? SelectedOpd?.value : User?.kode_opd}
+                        />
+                        // <Maintenance />
+                    }
                 </div>
             </div>
         </>

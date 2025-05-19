@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TbDeviceFloppy, TbX } from "react-icons/tb";
 import { Controller, SubmitHandler, useForm, useFieldArray } from "react-hook-form";
 import { ButtonSky, ButtonRed } from '@/components/global/Button';
@@ -17,7 +17,7 @@ interface modal {
     metode: "baru" | "lama";
     isOpen: boolean;
     onClose: () => void;
-    id?: string;
+    id?: number;
     id_rekin: string;
     id_sasaran?: number;
     rekin: string;
@@ -76,6 +76,7 @@ export const ModalRenaksiOpd: React.FC<modal> = ({ isOpen, onClose, onSuccess, m
 
     const [Proses, setProses] = useState<boolean>(false);
     const [IsLoading, setIsLoading] = useState<boolean>(false);
+    const [LoadingDetail, setLoadingDetail] = useState<boolean>(false);
     const token = getToken();
 
     const handleClose = () => {
@@ -83,6 +84,42 @@ export const ModalRenaksiOpd: React.FC<modal> = ({ isOpen, onClose, onSuccess, m
         setRenaksi(null);
         setCatatan('');
     }
+
+    useEffect(() => {
+        const fetchDetailRenaksiOpd = async () => {
+            const API_URL_2 = process.env.NEXT_PUBLIC_API_URL_2;
+            try {
+                setLoadingDetail(true);
+                const response = await fetch(`${API_URL_2}/renaksi-opd/detail/${id}`, {
+                    headers: {
+                        Authorization: `${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const result = await response.json();
+                const hasil = result.data;
+                // console.log(hasil);
+                if (hasil.keterangan) {
+                    setCatatan(hasil.keterangan);
+                }
+                if (hasil.id_renaksiopd) {
+                    const rekin = {
+                        value: hasil.rekin_id,
+                        label: hasil.nama_rencana_kinerja,
+                    }
+                    setRenaksi(rekin);
+                }
+            } catch (err) {
+                console.log(err);
+            } finally {
+                setLoadingDetail(false);
+            }
+        };
+        if(metode === 'lama'){
+            fetchDetailRenaksiOpd();
+        }
+    }, [id, token, metode]);
+
 
     const fetchOptionRekin = async () => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -191,7 +228,7 @@ export const ModalRenaksiOpd: React.FC<modal> = ({ isOpen, onClose, onSuccess, m
                             >
                                 Rencana Kinerja OPD
                             </label>
-                            <div className="border px-4 py-2 rounded-lg">{rekin || "-"}</div>
+                            <div className="border px-4 py-2 rounded-lg bg-gray-200">{rekin || "-"}</div>
                         </div>
                         {indikator.length != 0 ?
                             indikator.map((i: indikator, index_indikator: number) => (
@@ -203,10 +240,10 @@ export const ModalRenaksiOpd: React.FC<modal> = ({ isOpen, onClose, onSuccess, m
                                         >
                                             indikator ke {index_indikator + 1}
                                         </label>
-                                        <div className="border px-4 py-2 rounded-lg">{i.indikator}</div>
+                                        <div className="border px-4 py-2 rounded-lg bg-gray-200">{i.indikator || "-"}</div>
                                         <div className="flex flex-wrap w-full gap-2 pt-2">
-                                            <div className="border px-4 py-2 rounded-lg">{i.target.target || "-"}</div>
-                                            <div className="border px-4 py-2 rounded-lg">{i.target.satuan || "-"}</div>
+                                            <div className="border px-4 py-2 rounded-lg bg-gray-200">{i.target.target || "-"}</div>
+                                            <div className="border px-4 py-2 rounded-lg bg-gray-200">{i.target.satuan || "-"}</div>
                                         </div>
                                     </div>
                                 </React.Fragment>
@@ -250,7 +287,7 @@ export const ModalRenaksiOpd: React.FC<modal> = ({ isOpen, onClose, onSuccess, m
                                                 setRenaksi(option);
                                             }}
                                             onMenuOpen={() => {
-                                                if(RenaksiOption.length === 0){
+                                                if (RenaksiOption.length === 0) {
                                                     fetchOptionRekin();
                                                 }
                                             }}

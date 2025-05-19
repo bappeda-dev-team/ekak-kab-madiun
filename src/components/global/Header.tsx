@@ -124,7 +124,7 @@ const Header = () => {
                 {user?.roles == 'super_admin' ?
                     <h1 className="font-light text-sm">{Opd ? Opd?.label : "Pilih OPD"}</h1>
                     :
-                    <h1 className="font-light text-sm">{user?.email}</h1>
+                    <h1 className="font-light text-sm">{user?.nama_pegawai}</h1>
                 }
                 {/* <h1 className="font-light text-sm">{Tahun ? Tahun?.value : "Pilih Tahun"} - Kab. Madiun</h1> */}
             </div>

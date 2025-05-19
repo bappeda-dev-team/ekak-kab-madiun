@@ -50,7 +50,10 @@ const LaporanRincianBelanja = () => {
                     {(User?.roles == 'super_admin' || User?.roles == 'reviewer') ?
                         <h1 className="text-sm">{SelectedOpd?.label || ''}</h1>
                         :
-                        <h1 className="text-sm">{User?.nip || ''}</h1>
+                        <div className="">
+                            <h1 className="text-sm">{User?.nama_pegawai || ''}</h1>
+                            <h1 className="text-sm">{User?.nip || ''}</h1>
+                        </div>
                     }
                 </div>
                 <div className="flex m-2">

@@ -47,9 +47,9 @@ const RincianBelanja = () => {
                         <h1 className="font-bold text-2xl uppercase text-green-500">{Tahun?.label}</h1>
                     </div>
                     <div className="flex flex-col items-end">
-                        <p>{User?.email}</p>
-                        <p>{User?.nip}</p>
-                        <p>{User?.roles}</p>
+                        <p>{User?.nama_pegawai || "-"}</p>
+                        <p>{User?.nip || "-"}</p>
+                        <p>{User?.roles || "-"}</p>
                     </div>
                 </div>
                 <div className="m-3">

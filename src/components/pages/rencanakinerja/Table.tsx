@@ -163,9 +163,9 @@ export const TablePerencanaan = () => {
                 </div>
                 {/* {(User?.roles == 'eselon_1' || User?.roles == 'eselon_2' || User?.roles == 'eselon_3' || User?.roles == 'eselon_4') && */}
                 <div className="flex flex-col items-end">
-                    <p>{user?.email}</p>
-                    <p>{user?.nip}</p>
-                    <p>Roles: {user?.roles}</p>
+                    <p>{user?.nama_pegawai || "-"}</p>
+                    <p>{user?.nip || "-"}</p>
+                    <p>Roles: {user?.roles || "-"}</p>
                 </div>
                 {/* } */}
             </div>
