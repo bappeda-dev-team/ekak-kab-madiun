@@ -13,6 +13,6 @@ jobs:
       - name: Build the Docker image
         run: |
           docker login --username bappeda-dev-team --password ${{ secrets.GH_PASS }} ghcr.io
-          docker build --build-arg NEXT_PUBLIC_API_URL=https://api-kertaskerja.kertaskerja.cc . --file Dockerfile --tag ghcr.io/bappeda-dev-team/kertas-kerja-frontend:latest
+          docker build --build-arg NEXT_PUBLIC_API_URL=https://api-kertaskerja.kertaskerja.cc --build-arg NEXT_PUBLIC_API_URL_2=https://apirenaksiopd.zeabur.app . --file Dockerfile --tag ghcr.io/bappeda-dev-team/kertas-kerja-frontend:latest
           docker push ghcr.io/bappeda-dev-team/kertas-kerja-frontend:latest
           docker logout
