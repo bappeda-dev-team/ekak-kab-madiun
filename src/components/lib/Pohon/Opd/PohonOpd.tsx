@@ -399,7 +399,7 @@ export const PohonOpd: React.FC<pohon> = ({ tema, deleteTrigger, show_all, show_
                             </div>
                         }
                         {/* BUTTON CROSSCUTTING KHUSUS POHON PEMDA */}
-                        {['Strategic Pemda', 'Tactical Pemda', 'Operational Pemda'].includes(tema.jenis_pohon) && 
+                        {['Strategic Pemda', 'Tactical Pemda', 'Operational Pemda'].includes(tema.jenis_pohon) &&
                             <div
                                 className={`flex justify-evenly border my-3 py-3 rounded-lg bg-white hide-on-capture
                                     ${tema.jenis_pohon === "Strategic Pemda" && 'border-black'}
@@ -455,15 +455,15 @@ export const PohonOpd: React.FC<pohon> = ({ tema, deleteTrigger, show_all, show_
                                 Cetak
                             </ButtonSky>
                             {/* {!['Strategic Pemda', 'Tactical Pemda', 'Operational Pemda'].includes(tema.jenis_pohon) && */}
-                                <ButtonSkyBorder
-                                    onClick={() => {
-                                        fetchPohonCross(tema.id);
-                                        handleDetailCross();
-                                    }}
-                                >
-                                    <TbDeviceTabletSearch className="mr-1" />
-                                    {DetailCross ? "Sembunyikan" : "Cek Crosscutting"}
-                                </ButtonSkyBorder>
+                            <ButtonSkyBorder
+                                onClick={() => {
+                                    fetchPohonCross(tema.id);
+                                    handleDetailCross();
+                                }}
+                            >
+                                <TbDeviceTabletSearch className="mr-1" />
+                                {DetailCross ? "Sembunyikan" : "Cek Crosscutting"}
+                            </ButtonSkyBorder>
                             {/* } */}
                         </div>
                         {/* footer */}
@@ -949,7 +949,7 @@ export const PohonOpdEdited: React.FC<pohon> = ({ tema, deleteTrigger }) => {
                             </div>
                         }
                         {/* BUTTON CROSSCUTTING KHUSUS POHON PEMDA */}
-                        {['Strategic Pemda', 'Tactical Pemda', 'Operational Pemda'].includes(tema.jenis_pohon) && 
+                        {['Strategic Pemda', 'Tactical Pemda', 'Operational Pemda'].includes(tema.jenis_pohon) &&
                             <div
                                 className={`flex justify-evenly border my-3 py-3 rounded-lg bg-white hide-on-capture
                                     ${tema.jenis_pohon === "Strategic Pemda" && 'border-black'}
@@ -1131,6 +1131,7 @@ export const TablePohon = (props: any) => {
     const id = props.item.id;
     const tema = props.item.nama_pohon;
     const keterangan = props.item.keterangan;
+    const keterangan_crosscutting = props.item.keterangan_crosscutting;
     const opd = props.item.perangkat_daerah?.nama_opd;
     const nama_opd = props.item.nama_opd;
     const jenis = props.item.jenis_pohon;
@@ -1264,6 +1265,31 @@ export const TablePohon = (props: any) => {
         <div className='flex flex-col w-full'>
             <table className='w-full'>
                 <tbody>
+                    {keterangan_crosscutting &&
+                        <tr>
+                            <td
+                                className={`min-w-[100px] border px-2 py-1 text-start rounded-l-lg ${status === 'crosscutting_disetujui' && 'border-yellow-700'} bg-slate-200
+                                            ${jenis === "Strategic" && "border-red-700"}
+                                            ${jenis === "Tactical" && "border-blue-500"}
+                                            ${(jenis === "Operational" || jenis === "Operational N") && "border-green-500"}
+                                        `}
+                            >
+                                <div className="flex flex-col">
+                                    <p>keterangan</p>
+                                    <p>Crosscutting</p>
+                                </div>
+                            </td>
+                            <td
+                                className={`min-w-[300px] border px-2 py-3 text-start rounded-r-lg ${status === 'crosscutting_disetujui' && 'border-yellow-700'} bg-slate-200
+                                            ${jenis === "Strategic" && "border-red-700"}
+                                            ${jenis === "Tactical" && "border-blue-500"}
+                                            ${(jenis === "Operational" || jenis === "Operational N") && "border-green-500"}
+                                        `}
+                            >
+                                {keterangan_crosscutting ? keterangan_crosscutting : "-"}
+                            </td>
+                        </tr>
+                    }
                     <tr>
                         <td
                             className={`min-w-[100px] border px-2 py-3 bg-white text-start rounded-tl-lg
@@ -1643,7 +1669,7 @@ export const TablePohon = (props: any) => {
                                             ${(jenis === "Operational" || jenis === "Operational N") && "border-green-500"}
                                         `}
                                     >
-                                        OPD Asal
+                                        Crosscutting Dari
                                     </td>
                                     <td
                                         className={`min-w-[300px] border px-2 py-3 text-start rounded-r-lg ${status === 'crosscutting_disetujui' && 'border-yellow-700'} bg-slate-200

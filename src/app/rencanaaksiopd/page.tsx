@@ -31,7 +31,7 @@ const RencanaAksiOpd = () => {
                     value: data.opd.value,
                     label: data.opd.label,
                 }
-                setTahun(opd_value);
+                setSelectedOpd(opd_value);
             }
         }
     },[]);

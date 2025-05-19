@@ -19,6 +19,7 @@ interface modal {
     onClose: () => void;
     id?: string;
     id_rekin: string;
+    id_sasaran?: number;
     rekin: string;
     kode_opd: string;
     indikator: indikator[];
@@ -30,10 +31,17 @@ interface FormValue {
     catatan: string;
 }
 interface indikator {
-    id_indikator: string,
-    rencana_kinerja_id: string,
-    nama_indikator: string,
-    targets: target[]
+    id: string;
+    indikator: string;
+    rumus_perhitungan: string;
+    sumber_data: string;
+    target: {
+        id: string;
+        indikator_id: string;
+        tahun: string;
+        target: string;
+        satuan: string;
+    }
 }
 interface target {
     id_target: string;
@@ -41,8 +49,21 @@ interface target {
     target: string;
     satuan: string;
 }
+interface rekin {
+    id_rencana_kinerja: string;
+    id_pohon: number;
+    nama_pohon: string;
+    nama_rencana_kinerja: string;
+    tahun: string;
+    status_rencana_kinerja: string;
+    catatan: string;
+    operasional_daerah: {
+        kode_opd: string;
+        nama_opd: string;
+    };
+}
 
-export const ModalRenaksiOpd: React.FC<modal> = ({ isOpen, onClose, onSuccess, metode, id, id_rekin, kode_opd, rekin, indikator, tahun }) => {
+export const ModalRenaksiOpd: React.FC<modal> = ({ isOpen, onClose, onSuccess, metode, id, id_sasaran, id_rekin, rekin, kode_opd, indikator, tahun }) => {
 
     const {
         control,
@@ -54,6 +75,7 @@ export const ModalRenaksiOpd: React.FC<modal> = ({ isOpen, onClose, onSuccess, m
     const [RenaksiOption, setRenaksiOption] = useState<OptionType[]>([]);
 
     const [Proses, setProses] = useState<boolean>(false);
+    const [IsLoading, setIsLoading] = useState<boolean>(false);
     const token = getToken();
 
     const handleClose = () => {
@@ -62,30 +84,90 @@ export const ModalRenaksiOpd: React.FC<modal> = ({ isOpen, onClose, onSuccess, m
         setCatatan('');
     }
 
-    const onSubmit: SubmitHandler<FormValue> = async () => {
+    const fetchOptionRekin = async () => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL;
-        // try {
-        //     const response = await fetch(`${API_URL}/pohon_kinerja_opd/check_pokin/${kode_opd}`, {
-        //         method: "GET",
-        //         headers: {
-        //             Authorization: `${token}`,
-        //             "Content-Type": "application/json",
-        //         },
-        //     });
-        //     const hasil_check = await response.json();
-        //     if (hasil_check.data === true) {
-        //         AlertQuestion2("Peringatan", `data pohon di tahun ${TahunTarget?.value} sudah ada (cloning tidak akan menghapus data pohon yang sudah ada di tahun ${TahunTarget?.value}), lanjutkan cloning?`, "question", "Clone", "Batal").then((result) => {
-        //             if (result.isConfirmed) {
+        try {
+            setIsLoading(true);
+            const response = await fetch(`${API_URL}/rencana_kinerja_level3/${kode_opd}/${tahun}`, {
+                headers: {
+                    "Authorization": `${token}`
+                }
+            });
+            const result = await response.json();
+            const data = result.rencana_kinerja;
+            if (result.code === 200) {
+                const rekin = data.map((s: rekin) => ({
+                    value: s.id_rencana_kinerja,
+                    label: s.nama_rencana_kinerja,
+                }));
+                setRenaksiOption(rekin);
+            } else {
+                console.log("code: ", result.code, "data: ", result.data);
+                setRenaksiOption([]);
+            }
+        } catch (err) {
+            console.log("error saat fetch option rekin level 3", err);
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
-        //             }
-        //         });
-        //     } else {
-
-        //     }
-        // } catch (err) {
-        //     AlertNotification("Error at Checker Pokin", "terdapat kesalahan pada backend / database server, cek koneksi internet", "error", 2000);
-        //     console.error(err);
-        // }
+    const onSubmit: SubmitHandler<FormValue> = async (data) => {
+        const API_URL_2 = process.env.NEXT_PUBLIC_API_URL_2;
+        const formDataNew = {
+            //key : value
+            sasaranopd_id: id_sasaran,
+            rekin_id: Renaksi?.value,
+            tahun: tahun,
+            keterangan: Catatan
+        };
+        const formDataEdit = {
+            //key : value
+            id: id,
+            rekin_id: Renaksi?.value,
+            keterangan: Catatan
+        };
+        const getBody = () => {
+            if (metode === "baru") return formDataNew;
+            if (metode === "lama") return formDataEdit;
+            return {}; // Default jika metode tidak sesuai
+        };
+        // metode === 'baru' && console.log("baru :", formDataNew);
+        // metode === 'lama' && console.log("lama :", formDataEdit);
+        try {
+            let url = "";
+            if (metode === "lama") {
+                url = `rencana-aksi-opd/update/${id}`;
+            } else if (metode === "baru") {
+                url = `rencana-aksi-opd/create`;
+            } else {
+                url = '';
+            }
+            setProses(true);
+            const response = await fetch(`${API_URL_2}/${url}`, {
+                method: metode === 'lama' ? "PUT" : "POST",
+                headers: {
+                    Authorization: `${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(getBody()),
+            });
+            const result = await response.json();
+            if (result.code === 201 || result.code === 200) {
+                AlertNotification("Berhasil", `Berhasil ${metode === 'baru' ? "Menambahkan" : "Mengubah"} Renaksi OPD`, "success", 1000);
+                onClose();
+                onSuccess();
+            } else if (result.code === 500) {
+                AlertNotification("Gagal", `${result.data}`, "error", 2000);
+            } else {
+                AlertNotification("Gagal", "terdapat kesalahan pada backend / database server dengan response !ok", "error", 2000);
+                console.error(result);
+            }
+        } catch (err) {
+            AlertNotification("Gagal", "cek koneksi internet/terdapat kesalahan pada database server", "error", 2000);
+        } finally {
+            setProses(false);
+        }
     };
 
     if (!isOpen) {
@@ -119,9 +201,13 @@ export const ModalRenaksiOpd: React.FC<modal> = ({ isOpen, onClose, onSuccess, m
                                             className="uppercase text-xs font-bold text-gray-700 my-2"
                                             htmlFor="nama_pohon"
                                         >
-                                            Rencana Kinerja OPD
+                                            indikator ke {index_indikator + 1}
                                         </label>
-                                        <div className="border px-4 py-2 rounded-lg">{rekin}</div>
+                                        <div className="border px-4 py-2 rounded-lg">{i.indikator}</div>
+                                        <div className="flex flex-wrap w-full gap-2 pt-2">
+                                            <div className="border px-4 py-2 rounded-lg">{i.target.target || "-"}</div>
+                                            <div className="border px-4 py-2 rounded-lg">{i.target.satuan || "-"}</div>
+                                        </div>
                                     </div>
                                 </React.Fragment>
                             ))
@@ -153,6 +239,7 @@ export const ModalRenaksiOpd: React.FC<modal> = ({ isOpen, onClose, onSuccess, m
                                             placeholder="Pilih Rencana Aksi OPD"
                                             value={Renaksi}
                                             options={RenaksiOption}
+                                            isLoading={IsLoading}
                                             isSearchable
                                             isClearable
                                             // menuShouldBlockScroll={true}
@@ -161,6 +248,11 @@ export const ModalRenaksiOpd: React.FC<modal> = ({ isOpen, onClose, onSuccess, m
                                             onChange={(option) => {
                                                 field.onChange(option);
                                                 setRenaksi(option);
+                                            }}
+                                            onMenuOpen={() => {
+                                                if(RenaksiOption.length === 0){
+                                                    fetchOptionRekin();
+                                                }
                                             }}
                                             styles={{
                                                 control: (baseStyles) => ({
@@ -182,7 +274,7 @@ export const ModalRenaksiOpd: React.FC<modal> = ({ isOpen, onClose, onSuccess, m
                                 className="uppercase text-xs font-bold text-gray-700 my-2"
                                 htmlFor="catatan"
                             >
-                                Catatan :
+                                Keterangan :
                             </label>
                             <Controller
                                 name="catatan"
