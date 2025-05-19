@@ -1265,7 +1265,7 @@ export const TablePohon = (props: any) => {
         <div className='flex flex-col w-full'>
             <table className='w-full'>
                 <tbody>
-                    {keterangan_crosscutting &&
+                    {(status === 'crosscutting_disetujui' || status === 'crosscutting_disetujui_existing') &&
                         <tr>
                             <td
                                 className={`min-w-[100px] border px-2 py-1 text-start rounded-l-lg ${status === 'crosscutting_disetujui' && 'border-yellow-700'} bg-slate-200
@@ -2135,6 +2135,7 @@ export const TablePohonEdited = (props: any) => {
     const id = props.item.id;
     const tema = props.item.nama_pohon;
     const keterangan = props.item.keterangan;
+    const keterangan_crosscutting = props.item.keterangan_crosscutting;
     const opd = props.item.nama_opd;
     const jenis = props.item.jenis_pohon;
     const indikator = props.item.indikator;
@@ -2265,6 +2266,31 @@ export const TablePohonEdited = (props: any) => {
         <div className='flex flex-col w-full'>
             <table className='w-full'>
                 <tbody>
+                    {(status === 'crosscutting_disetujui' || status === 'crosscutting_disetujui_existing') &&
+                        <tr>
+                            <td
+                                className={`min-w-[100px] border px-2 py-1 text-start rounded-l-lg ${status === 'crosscutting_disetujui' && 'border-yellow-700'} bg-slate-200
+                                            ${jenis === "Strategic" && "border-red-700"}
+                                            ${jenis === "Tactical" && "border-blue-500"}
+                                            ${(jenis === "Operational" || jenis === "Operational N") && "border-green-500"}
+                                        `}
+                            >
+                                <div className="flex flex-col">
+                                    <p>keterangan</p>
+                                    <p>Crosscutting</p>
+                                </div>
+                            </td>
+                            <td
+                                className={`min-w-[300px] border px-2 py-3 text-start rounded-r-lg ${status === 'crosscutting_disetujui' && 'border-yellow-700'} bg-slate-200
+                                            ${jenis === "Strategic" && "border-red-700"}
+                                            ${jenis === "Tactical" && "border-blue-500"}
+                                            ${(jenis === "Operational" || jenis === "Operational N") && "border-green-500"}
+                                        `}
+                            >
+                                {keterangan_crosscutting ? keterangan_crosscutting : "-"}
+                            </td>
+                        </tr>
+                    }
                     <tr>
                         <td
                             className={`min-w-[100px] border px-2 py-3 bg-white text-start rounded-tl-lg
