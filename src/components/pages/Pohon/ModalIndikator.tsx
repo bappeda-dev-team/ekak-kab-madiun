@@ -55,7 +55,7 @@ export const ModalIndikator: React.FC<modal> = ({ isOpen, onClose, data, isi }) 
                 <div className="fixed inset-0 bg-black opacity-30" onClick={onClose}></div>
                 <div className={`flex flex-col gap-2 bg-white rounded-lg p-6 z-10 w-4/5`}>
                     <div className="flex items-center justify-between w-max-[500px] py-2 border-b">
-                        <h1 className="text-xl text-start uppercase">{isi}</h1>
+                        <h1 className="text-xl text-start uppercase">{isi || "-"}</h1>
                         <ButtonRed onClick={onClose} className="py-2"><TbX /></ButtonRed>
                     </div>
                     <div className="overflow-auto">
@@ -123,7 +123,7 @@ export const ModalIndikator2: React.FC<modal2> = ({ isOpen, onClose, data, isi }
                 <div className="fixed inset-0 bg-black opacity-30" onClick={onClose}></div>
                 <div className={`flex flex-col gap-2 bg-white rounded-lg p-6 z-10 w-4/5`}>
                     <div className="flex items-center justify-between w-max-[500px] py-2 border-b">
-                        <h1 className="text-xl text-start uppercase">{isi}</h1>
+                        <h1 className="text-xl text-start uppercase">{isi || "-"}</h1>
                         <ButtonRed onClick={onClose} className="py-2"><TbX /></ButtonRed>
                     </div>
                     <div className="overflow-auto">
@@ -138,9 +138,9 @@ export const ModalIndikator2: React.FC<modal2> = ({ isOpen, onClose, data, isi }
                                 </tr>
                             </thead>
                             <tbody>
-                                {(data.length === 0 || data === null) ?
+                                {(data === null) ?
                                     <tr>
-                                        <td colSpan={3} className="border border-black px-6 py-4">
+                                        <td colSpan={5} className="border border-black px-6 py-4">
                                             <p>indikator belum di tambahkan</p>
                                         </td>
                                     </tr>

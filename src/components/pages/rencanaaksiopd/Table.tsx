@@ -299,7 +299,7 @@ export const RekinAsn: React.FC<RekinAsn> = ({ id, sasaran, indikator, tahun, to
                 const result = await response.json();
                 const data = result.data;
                 // console.log(data);
-                if (data == null) {
+                if (data == null || data == undefined) {
                     setDataNull(true);
                     setData([]);
                 } else {
