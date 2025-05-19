@@ -26,6 +26,8 @@ COPY tailwind.config.ts postcss.config.mjs ./
 # https://github.com/vercel/next.js/discussions/14030
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+ARG NEXT_PUBLIC_API_URL_2
+ENV NEXT_PUBLIC_API_URL_2=${NEXT_PUBLIC_API_URL_2}
 
 # Next.js collects completely anonymous telemetry data about general usage. Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line to disable telemetry at build time
@@ -61,6 +63,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 # Environment variables must be redefined at run time
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+ARG NEXT_PUBLIC_API_URL_2
+ENV NEXT_PUBLIC_API_URL_2=${NEXT_PUBLIC_API_URL_2}
 
 # Uncomment the following line to disable telemetry at run time
 # ENV NEXT_TELEMETRY_DISABLED 1
