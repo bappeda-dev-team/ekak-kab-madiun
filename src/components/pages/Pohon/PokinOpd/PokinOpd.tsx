@@ -641,10 +641,25 @@ const PokinOpd = () => {
                                                         {item.indikator ?
                                                             <React.Fragment>
                                                                 {item.indikator.map((i: any) => (
-                                                                    <tr key={item.id}>
-                                                                        <td className="min-w-[100px] border px-2 py-3 border-black text-start">Indikator</td>
-                                                                        <td className="min-w-[300px] border px-2 py-3 border-black text-start">{i.indikator}</td>
-                                                                    </tr>
+                                                                    <React.Fragment key={item.id}>
+                                                                        <tr>
+                                                                            <td className="min-w-[100px] border px-2 py-3 border-black text-start">Indikator</td>
+                                                                            <td className="min-w-[300px] border px-2 py-3 border-black text-start">{i.indikator}</td>
+                                                                        </tr>
+                                                                        {i.targets ? 
+                                                                            i.targets.map((t: any, t_index: number) => (
+                                                                                <tr key={t_index}>
+                                                                                    <td className="min-w-[100px] border px-2 py-3 border-black text-start">Target/Satuan</td>
+                                                                                    <td className="min-w-[300px] border px-2 py-3 border-black text-start">{t.target || "-"} / {t.satuan || "-"}</td>
+                                                                                </tr>
+                                                                            ))
+                                                                        :
+                                                                            <tr>
+                                                                                <td className="min-w-[100px] border px-2 py-3 border-black text-start">Target/Satuan</td>
+                                                                                <td className="min-w-[300px] border px-2 py-3 border-black text-start">-</td>
+                                                                            </tr>
+                                                                        }
+                                                                    </React.Fragment>
                                                                 ))}
                                                             </React.Fragment>
                                                             :
