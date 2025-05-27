@@ -1,11 +1,11 @@
 'use client'
 
 import { useState, useEffect, useRef } from "react";
-import { ButtonSky, ButtonRed } from '@/components/global/Button';
+import { ButtonSkyBorder, ButtonRed } from '@/components/global/Button';
 import { TbPrinter, TbXboxX } from "react-icons/tb";
 import html2canvas from "html2canvas";
 import { PohonCetak } from "./PohonCetak";
-import { LoadingButtonClip } from "@/components/global/Loading";
+import { LoadingButtonClip2 } from "@/components/global/Loading";
 import { getOpdTahun } from "@/components/lib/Cookie";
 
 interface modal {
@@ -46,12 +46,12 @@ export const ModalCetak: React.FC<modal> = ({ jenis, isOpen, onClose, pohon }) =
             setLoadingCetak(true);
             const element = modalRef.current;
             const canvas = await html2canvas(element, {
-                scale: 2, // Higher scale for better quality
-                width: element.scrollWidth + 50, // Use full scrollable width
-                height: element.scrollHeight + 250, // Use full scrollable height
-                windowWidth: element.scrollWidth + 50, // Force full width rendering
+                scale: 1, // Higher scale for better quality
+                // width: element.scrollWidth + 50, // Use full scrollable width
+                // height: element.scrollHeight + 250, // Use full scrollable height
+                windowWidth: element.scrollWidth + 250, // Force full width rendering
                 windowHeight: element.scrollHeight + 250, // Force full height rendering
-                useCORS: true, // For cross-origin images
+                // useCORS: true, // For cross-origin images
             });
 
             // Create a new canvas with extra padding
@@ -101,13 +101,13 @@ export const ModalCetak: React.FC<modal> = ({ jenis, isOpen, onClose, pohon }) =
                 <div className={`fixed inset-0 bg-black opacity-30`} onClick={handleClose}></div>
                 <div className={`bg-white rounded-lg p-5 z-10 w-[98%] min-h-[98%] max-h-[98%] text-start overflow-y-hidden`}>
                     <div className="flex flex-wrap justify-between items-center border-b pb-2">
-                        <ButtonSky
+                        <ButtonSkyBorder
                             className="flex flex-wrap items-center gap-2"
                             onClick={handleDownloadPdf}
                         >
                             {LoadingCetak ?
                                 <>
-                                    <LoadingButtonClip />
+                                    <LoadingButtonClip2 />
                                     <p>Downloading</p>
                                 </>
                                 :
@@ -116,7 +116,7 @@ export const ModalCetak: React.FC<modal> = ({ jenis, isOpen, onClose, pohon }) =
                                     <p>Download</p>
                                 </>
                             }
-                        </ButtonSky>
+                        </ButtonSkyBorder>
                         <ButtonRed onClick={handleClose}>
                             <TbXboxX className="text-2xl" />
                         </ButtonRed>

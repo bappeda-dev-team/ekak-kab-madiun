@@ -59,7 +59,7 @@ const PohonTematik = ({ id, show_all, set_show_all }: pohontematik) => {
             }
             setTahun(tahun);
         }
-    }, [])
+    }, []);
 
     useEffect(() => {
         const fetchTematikKab = async () => {
@@ -87,7 +87,7 @@ const PohonTematik = ({ id, show_all, set_show_all }: pohontematik) => {
         if (id != undefined) {
             fetchTematikKab();
         }
-    }, [id, Deleted, token]);
+    }, [id, token, Deleted]);
 
     if (error) {
         return (

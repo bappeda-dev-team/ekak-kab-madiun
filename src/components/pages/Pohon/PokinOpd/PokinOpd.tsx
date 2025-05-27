@@ -13,7 +13,7 @@ import { ModalPohonPemda, ModalPohonCrosscutting } from './ModalPohonPemda';
 import { ModalTujuanOpd } from '../../tujuanopd/ModalTujuanOpd';
 import { ModalClone } from '../ModalClone';
 import html2canvas from 'html2canvas';
-import { AlertQuestion2 } from '@/components/global/Alert';
+import { AlertNotification, AlertQuestion2 } from '@/components/global/Alert';
 
 interface OptionType {
     value: number;
@@ -77,8 +77,9 @@ const PokinOpd = () => {
     const [StrategicPemdaLength, setStrategicPemdaLenght] = useState<number>(0);
     const [TacticalPemdaLength, setTacticalPemdaLenght] = useState<number>(0);
     const [OperationalPemdaLength, setOperationalPemdaLenght] = useState<number>(0);
-
+    
     //pohon cross opd lain
+    const [LoadingTotalCrosscutting, setLoadingTotalCrosscutting] = useState<boolean>(false);
     const [PohonCrosscutting, setPohonCrosscutting] = useState<boolean>(false);
     const [CrossPending, setCrossPending] = useState<number | null>(null);
     const [CrossDitolak, setCrossDitolak] = useState<number | null>(null);
@@ -230,6 +231,7 @@ const PokinOpd = () => {
         }
     }
 
+    // FETCH SEMUA POHON OPD
     useEffect(() => {
         const fetchPokinOpd = async (url: string) => {
             const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -254,10 +256,55 @@ const PokinOpd = () => {
             } finally {
                 setLoading(false);
             }
+        }
+        if (User?.roles == 'super_admin' || User?.roles == 'reviewer') {
+            if (SelectedOpd?.value != undefined && Tahun?.value != undefined) {
+                fetchPokinOpd(`pohon_kinerja_opd/findall/${SelectedOpd?.value}/${Tahun?.value}`);
+            }
+        } else if (User?.roles != 'super_admin') {
+            if (User?.kode_opd != undefined && Tahun?.value != undefined) {
+                fetchPokinOpd(`pohon_kinerja_opd/findall/${User?.kode_opd}/${Tahun?.value}`);
+            }
+        }
+    }, [User, SelectedOpd, Tahun, token, TriggerAfterPokinOutside]);
+
+    // FETCH STATUS POHON PEMDA & CROSSCUTTING DI CONTROL POKIN 
+    useEffect(() => {
+        const API_URL = process.env.NEXT_PUBLIC_API_URL;
+        const fetchControlPokin = async () => {
+            //FETCH JUMLAH POHON PEMDA YANG DITERIMA
+            try {
+                setLoadingTotalPending(true);
+                const url = (User?.roles == 'super_admin' || User?.roles == 'reviewer') ? `pohon_kinerja_opd/count_pokin_pemda/${SelectedOpd?.value}/${Tahun?.value}` : `pohon_kinerja_opd/count_pokin_pemda/${User?.kode_opd}/${Tahun?.value}`;
+                const response = await fetch(`${API_URL}/${url}`, {
+                    headers: {
+                        Authorization: `${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('terdapat kesalahan di koneksi backend');
+                }
+                const result = await response.json();
+                const data = result.data.detail_level || [];
+                if (data.length !== 0) {
+                    // console.log('strategic : ', data[0].jumlah_pemda, 'tactical : ', data[0].jumlah_pemda, 'operatiocal : ', data[0].jumlah_pemda);
+                    setStrategicPemdaLenght(data[0].jumlah_pemda);
+                    setTacticalPemdaLenght(data[1].jumlah_pemda);
+                    setOperationalPemdaLenght(data[2].jumlah_pemda);
+                } else {
+                    return null;
+                }
+            } catch (err) {
+                setError('gagal mendapatkan data pohon pemda yang diterima, terdapat kesalahan backend/server saat mengambil data pohon kinerja perangkat daerah');
+                console.error(err);
+            } finally {
+                setLoadingTotalPending(false);
+            }
             //FETCH STATUS POHON PEMDA
             try {
                 setLoadingTotalPemda(true);
-                const url = User?.roles == 'super_admin' ? `pohon_kinerja/status/${SelectedOpd?.value}/${Tahun?.value}` : `pohon_kinerja/status/${User?.kode_opd}/${Tahun?.value}`;
+                const url = (User?.roles == 'super_admin' || User?.roles == 'reviewer') ? `pohon_kinerja/status/${SelectedOpd?.value}/${Tahun?.value}` : `pohon_kinerja/status/${User?.kode_opd}/${Tahun?.value}`;
                 const response = await fetch(`${API_URL}/${url}`, {
                     headers: {
                         Authorization: `${token}`,
@@ -285,7 +332,8 @@ const PokinOpd = () => {
             }
             //FETCH STATUS POHON CROSSCUTTING
             try {
-                const url = User?.roles == 'super_admin' ? `crosscutting_menunggu/${SelectedOpd?.value}/${Tahun?.value}` : `crosscutting_menunggu/${User?.kode_opd}/${Tahun?.value}`;
+                setLoadingTotalCrosscutting(true);
+                const url = (User?.roles == 'super_admin' || User?.roles == 'reviewer') ? `crosscutting_menunggu/${SelectedOpd?.value}/${Tahun?.value}` : `crosscutting_menunggu/${User?.kode_opd}/${Tahun?.value}`;
                 const response = await fetch(`${API_URL}/${url}`, {
                     headers: {
                         Authorization: `${token}`,
@@ -307,47 +355,10 @@ const PokinOpd = () => {
                 setError('gagal mendapatkan data status pohon crosscutting, terdapat kesalahan backend/server saat mengambil data pohon kinerja perangkat daerah');
                 console.error(err);
             } finally {
-                setLoading(false);
-            }
-            //FETCH JUMLAH POHON PEMDA YANG DITERIMA
-            try {
-                setLoadingTotalPending(true);
-                const url = User?.roles == 'super_admin' ? `pohon_kinerja_opd/count_pokin_pemda/${SelectedOpd?.value}/${Tahun?.value}` : `pohon_kinerja_opd/count_pokin_pemda/${User?.kode_opd}/${Tahun?.value}`;
-                const response = await fetch(`${API_URL}/${url}`, {
-                    headers: {
-                        Authorization: `${token}`,
-                        'Content-Type': 'application/json',
-                    },
-                });
-                if (!response.ok) {
-                    throw new Error('terdapat kesalahan di koneksi backend');
-                }
-                const result = await response.json();
-                const data = result.data.detail_level || [];
-                if (data.length !== 0) {
-                    // console.log('strategic : ', data[0].jumlah_pemda, 'tactical : ', data[0].jumlah_pemda, 'operatiocal : ', data[0].jumlah_pemda);
-                    setStrategicPemdaLenght(data[0].jumlah_pemda);
-                    setTacticalPemdaLenght(data[1].jumlah_pemda);
-                    setOperationalPemdaLenght(data[2].jumlah_pemda);
-                } else {
-                    return null;
-                }
-            } catch (err) {
-                setError('gagal mendapatkan data pohon pemda yang diterima, terdapat kesalahan backend/server saat mengambil data pohon kinerja perangkat daerah');
-                console.error(err);
-            } finally {
-                setLoadingTotalPending(false);
+                setLoadingTotalCrosscutting(false);
             }
         }
-        if (User?.roles == 'super_admin' || User?.roles == 'reviewer') {
-            if (SelectedOpd?.value != undefined && Tahun?.value != undefined) {
-                fetchPokinOpd(`pohon_kinerja_opd/findall/${SelectedOpd?.value}/${Tahun?.value}`);
-            }
-        } else if (User?.roles != 'super_admin') {
-            if (User?.kode_opd != undefined && Tahun?.value != undefined) {
-                fetchPokinOpd(`pohon_kinerja_opd/findall/${User?.kode_opd}/${Tahun?.value}`);
-            }
-        }
+        fetchControlPokin();
     }, [User, SelectedOpd, Tahun, Deleted, token, TriggerAfterPokinOutside]);
 
     if (Loading) {
@@ -444,9 +455,9 @@ const PokinOpd = () => {
                                             </td>
                                             <td className='flex justify-center px-2 py-1 text-center w-full'>
                                                 <h1 className="flex items-center gap-1 font-semibold">
-                                                    {LoadingTotalPemda ? 
+                                                    {LoadingTotalPemda ?
                                                         <LoadingButtonClip2 />
-                                                    :
+                                                        :
                                                         JumlahPemdaStrategic?.length || 0
                                                     }
                                                     <TbHourglass />
@@ -483,10 +494,10 @@ const PokinOpd = () => {
                                             </td>
                                             <td className='flex justify-center px-2 py-1 text-center w-full'>
                                                 <h1 className="flex items-center gap-1 font-semibold">
-                                                    {LoadingTotalPemda ? 
-                                                            <LoadingButtonClip2 />
+                                                    {LoadingTotalPemda ?
+                                                        <LoadingButtonClip2 />
                                                         :
-                                                            JumlahPemdaTactical?.length || 0
+                                                        JumlahPemdaTactical?.length || 0
                                                     }
                                                     <TbHourglass />
                                                 </h1>
@@ -522,10 +533,10 @@ const PokinOpd = () => {
                                             </td>
                                             <td className='flex justify-center px-2 py-1 text-center w-full'>
                                                 <h1 className="flex gap-1 items-center font-semibold">
-                                                    {LoadingTotalPemda ? 
-                                                            <LoadingButtonClip2 />
+                                                    {LoadingTotalPemda ?
+                                                        <LoadingButtonClip2 />
                                                         :
-                                                            JumlahPemdaOperational?.length || 0
+                                                        JumlahPemdaOperational?.length || 0
                                                     }
                                                     <TbHourglass />
                                                 </h1>
@@ -549,7 +560,12 @@ const PokinOpd = () => {
                                     </tbody>
                                 </table>
                             </div>
-                            <ModalPohonPemda isOpen={PohonPemda} isLevel={LevelPemda} onClose={() => { handleModalPohonPemda(4) }} onSuccess={handleTriggerAfterPokinOutside} />
+                            <ModalPohonPemda 
+                                isOpen={PohonPemda} 
+                                isLevel={LevelPemda} 
+                                onClose={() => { handleModalPohonPemda(4) }} 
+                                onSuccess={handleTriggerAfterPokinOutside}
+                            />
                         </div>
                         {/* CROSS OPD */}
                         <div className="flex flex-col justify-between border-2 max-w-[400px] min-w-[300px] px-3 py-2 rounded-xl">
@@ -572,7 +588,11 @@ const PokinOpd = () => {
                                             </td>
                                             <td className='border-r border-t px-2 py-1 bg-white text-center rounded-tr-lg w-full'>
                                                 <h1 className="font-semibold">
-                                                    {CrossDitolak ? CrossDitolak : 0}
+                                                    {LoadingTotalCrosscutting ? 
+                                                        <LoadingButtonClip2 />
+                                                    :
+                                                        CrossDitolak ? CrossDitolak : 0
+                                                    }
                                                 </h1>
                                             </td>
                                         </tr>
@@ -589,7 +609,11 @@ const PokinOpd = () => {
                                             </td>
                                             <td className='border-r border-b px-2 py-1 bg-white text-center rounded-br-lg w-full'>
                                                 <h1 className="font-semibold">
-                                                    {CrossPending ? CrossPending : 0}
+                                                    {LoadingTotalCrosscutting ? 
+                                                        <LoadingButtonClip2 />
+                                                    :
+                                                        CrossPending ? CrossPending : 0
+                                                    }
                                                 </h1>
                                             </td>
                                         </tr>
@@ -600,7 +624,11 @@ const PokinOpd = () => {
                                 <TbSettings className='mr-1' />
                                 Edit
                             </ButtonSkyBorder>
-                            <ModalPohonCrosscutting isOpen={PohonCrosscutting} onClose={handleModalCrosscutting} onSuccess={handleTriggerAfterPokinOutside} />
+                            <ModalPohonCrosscutting 
+                                isOpen={PohonCrosscutting}
+                                onClose={handleModalCrosscutting} 
+                                onSuccess={handleTriggerAfterPokinOutside} 
+                            />
                         </div>
                     </div>
                 }
@@ -646,14 +674,14 @@ const PokinOpd = () => {
                                                                             <td className="min-w-[100px] border px-2 py-3 border-black text-start">Indikator</td>
                                                                             <td className="min-w-[300px] border px-2 py-3 border-black text-start">{i.indikator}</td>
                                                                         </tr>
-                                                                        {i.targets ? 
+                                                                        {i.targets ?
                                                                             i.targets.map((t: any, t_index: number) => (
                                                                                 <tr key={t_index}>
                                                                                     <td className="min-w-[100px] border px-2 py-3 border-black text-start">Target/Satuan</td>
                                                                                     <td className="min-w-[300px] border px-2 py-3 border-black text-start">{t.target || "-"} / {t.satuan || "-"}</td>
                                                                                 </tr>
                                                                             ))
-                                                                        :
+                                                                            :
                                                                             <tr>
                                                                                 <td className="min-w-[100px] border px-2 py-3 border-black text-start">Target/Satuan</td>
                                                                                 <td className="min-w-[300px] border px-2 py-3 border-black text-start">-</td>
@@ -699,13 +727,14 @@ const PokinOpd = () => {
                                         <ButtonSky
                                             className='flex flex-wrap items-center justify-center gap-1'
                                             onClick={() => {
-                                                setShowAllDetail(true);
-                                                AlertQuestion2("Sembunyikan Sidebar untuk hasil cetak penuh", "", "warning", "Cetak", "Batal").then((result) => {
-                                                    if (result.isConfirmed) {
-                                                        handleDownloadPdf();
-                                                        console.log(containerRef.current);
-                                                    }
-                                                })
+                                                AlertNotification("Dalam Perbaikan", "Cetak Per Pohon langsung di Strategic, Tactical atau Operational", "info", 2000);
+                                                // setShowAllDetail(true);
+                                                // AlertQuestion2("Sembunyikan Sidebar untuk hasil cetak penuh", "", "warning", "Cetak", "Batal").then((result) => {
+                                                //     if (result.isConfirmed) {
+                                                //         handleDownloadPdf();
+                                                //         console.log(containerRef.current);
+                                                //     }
+                                                // })
                                             }}
                                         >
                                             <TbPrinter className='mr-1' />
@@ -722,7 +751,7 @@ const PokinOpd = () => {
                                         />
                                     </div>
                                 }
-                                {/* button */}
+                                {/* BUTTON HEADER POKIN */}
                                 <div className="flex items-center justify-evenly hide-on-capture">
                                     <div className="flex justify-center my-1 py-2">
                                         <ButtonBlackBorder onClick={() => setShowAll(true)}>
@@ -747,6 +776,7 @@ const PokinOpd = () => {
                                             <PohonOpd
                                                 tema={data}
                                                 deleteTrigger={() => setDeleted((prev) => !prev)}
+                                                fetchTrigger={() => setTriggerAfterPokinOutside((prev) => !prev)}
                                                 show_all={ShowAll}
                                                 set_show_all={() => setShowAll(false)}
                                                 show_detail={ShowAllDetail}
@@ -760,9 +790,10 @@ const PokinOpd = () => {
                                                 id={null}
                                                 key={formId}
                                                 formId={formId}
-                                                pokin={'opd'}
                                                 onCancel={() => setFormList(formList.filter((id) => id !== formId))}
-                                            />
+                                                deleteTrigger={() => setDeleted((prev) => !prev)}
+                                                fetchTrigger={() => setTriggerAfterPokinOutside((prev) => !prev)}
+                                                />
                                         </React.Fragment>
                                     ))}
                                 </ul>
@@ -775,8 +806,9 @@ const PokinOpd = () => {
                                                 id={null}
                                                 key={formId}
                                                 formId={formId}
-                                                pokin={'opd'}
                                                 onCancel={() => setFormList(formList.filter((id) => id !== formId))}
+                                                deleteTrigger={() => setDeleted((prev) => !prev)}
+                                                fetchTrigger={() => setTriggerAfterPokinOutside((prev) => !prev)}
                                             />
                                         </React.Fragment>
                                     ))}
@@ -802,7 +834,7 @@ const PokinOpd = () => {
                     special={true}
                     isOpen={OpenModalTujuanOpd}
                     onClose={() => handleModalNewTujuan()}
-                    onSuccess={() => setDeleted((prev) => !prev)}
+                    onSuccess={() => setTriggerAfterPokinOutside((prev) => !prev)}
                 />
             </div>
         </>

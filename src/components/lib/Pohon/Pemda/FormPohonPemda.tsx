@@ -1,14 +1,15 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ButtonSky, ButtonRed, ButtonRedBorder, ButtonSkyBorder } from '@/components/global/Button';
 import { Controller, SubmitHandler, useForm, useFieldArray } from "react-hook-form";
 import { getOpdTahun } from '../../Cookie';
 import { AlertNotification } from '@/components/global/Alert';
 import Select from 'react-select';
-import { PohonEdited } from './Pohon';
+import { Pohon } from './Pohon';
 import { getToken } from '../../Cookie';
 import { LoadingButtonClip, LoadingSync } from '@/components/global/Loading';
+import { TbCheck } from 'react-icons/tb';
 
 interface OptionTypeString {
     value: string;
@@ -222,312 +223,314 @@ export const FormPohonPemda: React.FC<{
     };
 
     return (
-        <li>
+        <React.Fragment>
             {IsAdded && DataAdd ?
-                <PohonEdited
+                <Pohon
                     tema={DataAdd}
                     deleteTrigger={() => setDeleted((prev) => !prev)}
                     set_show_all={() => null}
                 />
                 :
-                <div className="tf-nc tf flex flex-col w-[600px] rounded-lg shadow-lg shadow-slate-500">
-                    <div className="flex pt-3 justify-center font-bold text-lg uppercase border my-3 py-3 border-black rounded-lg">
-                        {level == 0 &&
-                            <h1>Tambah SubTematik</h1>
-                        }
-                        {level == 1 &&
-                            <h1>Tambah SubSubTematik</h1>
-                        }
-                        {level == 2 &&
-                            <h1>Tambah SuperSubTematik</h1>
-                        }
-                        {level == 3 &&
-                            <h1>Tambah Strategic Pemda</h1>
-                        }
-                        {level == 4 &&
-                            <h1>Tambah Tactical Pemda</h1>
-                        }
-                        {level == 5 &&
-                            <h1>Tambah Operational Pemda</h1>
-                        }
-                    </div>
-                    <div className="flex justify-center my-3 w-full">
-                        <form
-                            onSubmit={handleSubmit(onSubmit)}
-                            className='w-full'
-                        >
-                            <div className="flex flex-col py-3">
-                                <label
-                                    className="uppercase text-xs font-bold text-gray-700 my-2"
-                                    htmlFor="nama_pohon"
-                                >
-                                    {level == 0 &&
-                                        "Sub Tematik"
-                                    }
-                                    {level == 1 &&
-                                        "Sub Sub Tematik"
-                                    }
-                                    {level == 2 &&
-                                        "Super Sub Tematik"
-                                    }
-                                    {level == 3 &&
-                                        "Strategic Pemda"
-                                    }
-                                    {level == 4 &&
-                                        "Tactical Pemda"
-                                    }
-                                    {level == 5 &&
-                                        "Operational Pemda"
-                                    }
-                                </label>
-                                <Controller
-                                    name="nama_pohon"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <input
-                                            {...field}
-                                            className="border px-4 py-2 rounded-lg"
-                                            id="nama_pohon"
-                                            type="text"
-                                            placeholder="masukkan Pohon"
-                                            value={field.value || NamaPohon}
-                                            onChange={(e) => {
-                                                field.onChange(e);
-                                                setNamaPohon(e.target.value);
-                                            }}
-                                        />
-                                    )}
-                                />
-                            </div>
-                            {(level === 3 || level === 4 || level === 5 || level === 6) &&
-                                <div className="flex flex-col py-3">
-                                    <label
-                                        className="uppercase text-xs font-bold text-gray-700 my-2"
-                                        htmlFor="kode_opd"
-                                    >
-                                        Perangkat Daerah
-                                    </label>
-                                    <Controller
-                                        name="kode_opd"
-                                        control={control}
-                                        render={({ field }) => (
-                                            <>
-                                                <Select
-                                                    {...field}
-                                                    placeholder="Masukkan Perangkat Daerah"
-                                                    value={KodeOpd}
-                                                    options={OpdOption}
-                                                    isLoading={isLoading}
-                                                    isSearchable
-                                                    isClearable
-                                                    onMenuOpen={() => {
-                                                        if (OpdOption.length === 0) {
-                                                            fetchOpd();
-                                                        }
-                                                    }}
-                                                    onChange={(option) => {
-                                                        field.onChange(option);
-                                                        setKodeOpd(option);
-                                                    }}
-                                                    styles={{
-                                                        control: (baseStyles) => ({
-                                                            ...baseStyles,
-                                                            borderRadius: '8px',
-                                                            textAlign: 'start',
-                                                        })
-                                                    }}
-                                                />
-                                            </>
-                                        )}
-                                    />
-                                </div>
+                <li>
+                    <div className="tf-nc tf flex flex-col w-[600px] rounded-lg shadow-lg shadow-slate-500 form-pohon">
+                        <div className="flex pt-3 justify-center font-bold text-lg uppercase border my-3 py-3 border-black rounded-lg">
+                            {level == 0 &&
+                                <h1>Tambah SubTematik</h1>
                             }
-                            {pokin === 'opd' &&
-                                <div className="flex flex-col py-3">
-                                    <label
-                                        className="uppercase text-xs font-bold text-gray-700 my-2"
-                                        htmlFor="pelaksana"
-                                    >
-                                        Pelaksana
-                                    </label>
-                                    <Controller
-                                        name="pelaksana"
-                                        control={control}
-                                        render={({ field }) => (
-                                            <>
-                                                <Select
-                                                    {...field}
-                                                    placeholder="Pilih Pelaksana (bisa lebih dari satu)"
-                                                    value={Pelaksana}
-                                                    options={PelaksanaOption}
-                                                    isLoading={isLoading}
-                                                    isSearchable
-                                                    isClearable
-                                                    isMulti
-                                                    onMenuOpen={() => {
-                                                        if (PelaksanaOption.length === 0) {
-                                                            fetchPelaksana();
-                                                        }
-                                                    }}
-                                                    onChange={(option) => {
-                                                        field.onChange(option || []);
-                                                        setPelaksana(option as OptionTypeString[]);
-                                                    }}
-                                                    styles={{
-                                                        control: (baseStyles) => ({
-                                                            ...baseStyles,
-                                                            borderRadius: '8px',
-                                                            textAlign: 'start',
-                                                        })
-                                                    }}
-                                                />
-                                            </>
-                                        )}
-                                    />
-                                </div>
+                            {level == 1 &&
+                                <h1>Tambah SubSubTematik</h1>
                             }
-                            <div className="flex flex-col py-3">
-                                <label
-                                    className="uppercase text-xs font-bold text-gray-700 my-2"
-                                    htmlFor="keterangan"
-                                >
-                                    Keterangan:
-                                </label>
-                                <Controller
-                                    name="keterangan"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <textarea
-                                            {...field}
-                                            className="border px-4 py-2 rounded-lg"
-                                            id="keterangan"
-                                            placeholder="masukkan keterangan"
-                                            value={field.value || Keterangan}
-                                            onChange={(e) => {
-                                                field.onChange(e);
-                                                setKeterangan(e.target.value);
-                                            }}
-                                        />
-                                    )}
-                                />
-                            </div>
-                            <label className="uppercase text-base font-bold text-gray-700 my-2">
-                                {
-                                    level == 0 ?
-                                        <h1>Indikator Sub Tematik :</h1>
-                                        :
-                                        level == 1 ?
-                                            <h1>Indikator Sub Sub Tematik :</h1>
-                                            :
-                                            level == 2 ?
-                                                <h1>Indikator Super Sub Tematik :</h1>
-                                                :
-                                                level == 3 ?
-                                                    <h1>Indikator Strategic :</h1>
-                                                    :
-                                                    level == 4 ?
-                                                        <h1>Indikator Tactical :</h1>
-                                                        :
-                                                        level == 5 ?
-                                                            <h1>Indikator Operational :</h1>
-                                                            :
-                                                            <h1>Indikator</h1>
-                                }
-                            </label>
-                            {fields.map((field, index) => (
-                                <div key={index} className="flex flex-col my-2 py-2 px-5 border rounded-lg">
-                                    <Controller
-                                        name={`indikator.${index}.nama_indikator`}
-                                        control={control}
-                                        defaultValue={field.nama_indikator}
-                                        render={({ field }) => (
-                                            <div className="flex flex-col py-3">
-                                                <label className="uppercase text-xs font-bold text-gray-700 mb-2">
-                                                    Nama Indikator {index + 1} :
-                                                </label>
-                                                <input
-                                                    {...field}
-                                                    className="border px-4 py-2 rounded-lg"
-                                                    placeholder={`Masukkan nama indikator ${index + 1}`}
-                                                />
-                                            </div>
-                                        )}
-                                    />
-                                    {field.targets.map((_, subindex) => (
-                                        <>
-                                            <Controller
-                                                name={`indikator.${index}.targets.${subindex}.target`}
-                                                control={control}
-                                                defaultValue={_.target}
-                                                render={({ field }) => (
-                                                    <div className="flex flex-col py-3">
-                                                        <label className="uppercase text-xs font-bold text-gray-700 mb-2">
-                                                            Target :
-                                                        </label>
-                                                        <input
-                                                            {...field}
-                                                            type="text"
-                                                            className="border px-4 py-2 rounded-lg"
-                                                            placeholder="Masukkan target"
-                                                        />
-                                                    </div>
-                                                )}
-                                            />
-                                            <Controller
-                                                name={`indikator.${index}.targets.${subindex}.satuan`}
-                                                control={control}
-                                                defaultValue={_.satuan}
-                                                render={({ field }) => (
-                                                    <div className="flex flex-col py-3">
-                                                        <label className="uppercase text-xs font-bold text-gray-700 mb-2">
-                                                            Satuan :
-                                                        </label>
-                                                        <input
-                                                            {...field}
-                                                            className="border px-4 py-2 rounded-lg"
-                                                            placeholder="Masukkan satuan"
-                                                        />
-                                                    </div>
-                                                )}
-                                            />
-                                        </>
-                                    ))}
-                                    {index >= 0 && (
-                                        <ButtonRedBorder
-                                            type="button"
-                                            onClick={() => remove(index)}
-                                            className="w-[200px] my-3"
-                                        >
-                                            Hapus
-                                        </ButtonRedBorder>
-                                    )}
-                                </div>
-                            ))}
-                            <ButtonSkyBorder
-                                className="mb-3 mt-2 w-full"
-                                type="button"
-                                onClick={() => append({ nama_indikator: "", targets: [{ target: "", satuan: "" }] })}
+                            {level == 2 &&
+                                <h1>Tambah SuperSubTematik</h1>
+                            }
+                            {level == 3 &&
+                                <h1>Tambah Strategic Pemda</h1>
+                            }
+                            {level == 4 &&
+                                <h1>Tambah Tactical Pemda</h1>
+                            }
+                            {level == 5 &&
+                                <h1>Tambah Operational Pemda</h1>
+                            }
+                        </div>
+                        <div className="flex justify-center my-3 w-full">
+                            <form
+                                onSubmit={handleSubmit(onSubmit)}
+                                className='w-full'
                             >
-                                Tambah Indikator
-                            </ButtonSkyBorder>
-                            <ButtonSky type="submit" className="w-full my-3" disabled={Proses}>
-                                {Proses ?
-                                    <span className="flex">
-                                        <LoadingButtonClip />
-                                        Menyimpan...
-                                    </span>
-                                    :
-                                    "Simpan"
+                                <div className="flex flex-col py-3">
+                                    <label
+                                        className="uppercase text-xs font-bold text-gray-700 my-2"
+                                        htmlFor="nama_pohon"
+                                    >
+                                        {level == 0 &&
+                                            "Sub Tematik"
+                                        }
+                                        {level == 1 &&
+                                            "Sub Sub Tematik"
+                                        }
+                                        {level == 2 &&
+                                            "Super Sub Tematik"
+                                        }
+                                        {level == 3 &&
+                                            "Strategic Pemda"
+                                        }
+                                        {level == 4 &&
+                                            "Tactical Pemda"
+                                        }
+                                        {level == 5 &&
+                                            "Operational Pemda"
+                                        }
+                                    </label>
+                                    <Controller
+                                        name="nama_pohon"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <input
+                                                {...field}
+                                                className="border px-4 py-2 rounded-lg"
+                                                id="nama_pohon"
+                                                type="text"
+                                                placeholder="masukkan Pohon"
+                                                value={field.value || NamaPohon}
+                                                onChange={(e) => {
+                                                    field.onChange(e);
+                                                    setNamaPohon(e.target.value);
+                                                }}
+                                            />
+                                        )}
+                                    />
+                                </div>
+                                {(level === 3 || level === 4 || level === 5 || level === 6) &&
+                                    <div className="flex flex-col py-3">
+                                        <label
+                                            className="uppercase text-xs font-bold text-gray-700 my-2"
+                                            htmlFor="kode_opd"
+                                        >
+                                            Perangkat Daerah
+                                        </label>
+                                        <Controller
+                                            name="kode_opd"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <>
+                                                    <Select
+                                                        {...field}
+                                                        placeholder="Masukkan Perangkat Daerah"
+                                                        value={KodeOpd}
+                                                        options={OpdOption}
+                                                        isLoading={isLoading}
+                                                        isSearchable
+                                                        isClearable
+                                                        onMenuOpen={() => {
+                                                            if (OpdOption.length === 0) {
+                                                                fetchOpd();
+                                                            }
+                                                        }}
+                                                        onChange={(option) => {
+                                                            field.onChange(option);
+                                                            setKodeOpd(option);
+                                                        }}
+                                                        styles={{
+                                                            control: (baseStyles) => ({
+                                                                ...baseStyles,
+                                                                borderRadius: '8px',
+                                                                textAlign: 'start',
+                                                            })
+                                                        }}
+                                                    />
+                                                </>
+                                            )}
+                                        />
+                                    </div>
                                 }
-                            </ButtonSky>
-                            <ButtonRed className="w-full my-3" onClick={onCancel}>
-                                Batal
-                            </ButtonRed>
-                        </form>
+                                {pokin === 'opd' &&
+                                    <div className="flex flex-col py-3">
+                                        <label
+                                            className="uppercase text-xs font-bold text-gray-700 my-2"
+                                            htmlFor="pelaksana"
+                                        >
+                                            Pelaksana
+                                        </label>
+                                        <Controller
+                                            name="pelaksana"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <>
+                                                    <Select
+                                                        {...field}
+                                                        placeholder="Pilih Pelaksana (bisa lebih dari satu)"
+                                                        value={Pelaksana}
+                                                        options={PelaksanaOption}
+                                                        isLoading={isLoading}
+                                                        isSearchable
+                                                        isClearable
+                                                        isMulti
+                                                        onMenuOpen={() => {
+                                                            if (PelaksanaOption.length === 0) {
+                                                                fetchPelaksana();
+                                                            }
+                                                        }}
+                                                        onChange={(option) => {
+                                                            field.onChange(option || []);
+                                                            setPelaksana(option as OptionTypeString[]);
+                                                        }}
+                                                        styles={{
+                                                            control: (baseStyles) => ({
+                                                                ...baseStyles,
+                                                                borderRadius: '8px',
+                                                                textAlign: 'start',
+                                                            })
+                                                        }}
+                                                    />
+                                                </>
+                                            )}
+                                        />
+                                    </div>
+                                }
+                                <div className="flex flex-col py-3">
+                                    <label
+                                        className="uppercase text-xs font-bold text-gray-700 my-2"
+                                        htmlFor="keterangan"
+                                    >
+                                        Keterangan:
+                                    </label>
+                                    <Controller
+                                        name="keterangan"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <textarea
+                                                {...field}
+                                                className="border px-4 py-2 rounded-lg"
+                                                id="keterangan"
+                                                placeholder="masukkan keterangan"
+                                                value={field.value || Keterangan}
+                                                onChange={(e) => {
+                                                    field.onChange(e);
+                                                    setKeterangan(e.target.value);
+                                                }}
+                                            />
+                                        )}
+                                    />
+                                </div>
+                                <label className="uppercase text-base font-bold text-gray-700 my-2">
+                                    {
+                                        level == 0 ?
+                                            <h1>Indikator Sub Tematik :</h1>
+                                            :
+                                            level == 1 ?
+                                                <h1>Indikator Sub Sub Tematik :</h1>
+                                                :
+                                                level == 2 ?
+                                                    <h1>Indikator Super Sub Tematik :</h1>
+                                                    :
+                                                    level == 3 ?
+                                                        <h1>Indikator Strategic :</h1>
+                                                        :
+                                                        level == 4 ?
+                                                            <h1>Indikator Tactical :</h1>
+                                                            :
+                                                            level == 5 ?
+                                                                <h1>Indikator Operational :</h1>
+                                                                :
+                                                                <h1>Indikator</h1>
+                                    }
+                                </label>
+                                {fields.map((field, index) => (
+                                    <div key={index} className="flex flex-col my-2 py-2 px-5 border rounded-lg">
+                                        <Controller
+                                            name={`indikator.${index}.nama_indikator`}
+                                            control={control}
+                                            defaultValue={field.nama_indikator}
+                                            render={({ field }) => (
+                                                <div className="flex flex-col py-3">
+                                                    <label className="uppercase text-xs font-bold text-gray-700 mb-2">
+                                                        Nama Indikator {index + 1} :
+                                                    </label>
+                                                    <input
+                                                        {...field}
+                                                        className="border px-4 py-2 rounded-lg"
+                                                        placeholder={`Masukkan nama indikator ${index + 1}`}
+                                                    />
+                                                </div>
+                                            )}
+                                        />
+                                        {field.targets.map((_, subindex) => (
+                                            <>
+                                                <Controller
+                                                    name={`indikator.${index}.targets.${subindex}.target`}
+                                                    control={control}
+                                                    defaultValue={_.target}
+                                                    render={({ field }) => (
+                                                        <div className="flex flex-col py-3">
+                                                            <label className="uppercase text-xs font-bold text-gray-700 mb-2">
+                                                                Target :
+                                                            </label>
+                                                            <input
+                                                                {...field}
+                                                                type="text"
+                                                                className="border px-4 py-2 rounded-lg"
+                                                                placeholder="Masukkan target"
+                                                            />
+                                                        </div>
+                                                    )}
+                                                />
+                                                <Controller
+                                                    name={`indikator.${index}.targets.${subindex}.satuan`}
+                                                    control={control}
+                                                    defaultValue={_.satuan}
+                                                    render={({ field }) => (
+                                                        <div className="flex flex-col py-3">
+                                                            <label className="uppercase text-xs font-bold text-gray-700 mb-2">
+                                                                Satuan :
+                                                            </label>
+                                                            <input
+                                                                {...field}
+                                                                className="border px-4 py-2 rounded-lg"
+                                                                placeholder="Masukkan satuan"
+                                                            />
+                                                        </div>
+                                                    )}
+                                                />
+                                            </>
+                                        ))}
+                                        {index >= 0 && (
+                                            <ButtonRedBorder
+                                                type="button"
+                                                onClick={() => remove(index)}
+                                                className="w-[200px] my-3"
+                                            >
+                                                Hapus
+                                            </ButtonRedBorder>
+                                        )}
+                                    </div>
+                                ))}
+                                <ButtonSkyBorder
+                                    className="mb-3 mt-2 w-full"
+                                    type="button"
+                                    onClick={() => append({ nama_indikator: "", targets: [{ target: "", satuan: "" }] })}
+                                >
+                                    Tambah Indikator
+                                </ButtonSkyBorder>
+                                <ButtonSky type="submit" className="w-full my-3" disabled={Proses}>
+                                    {Proses ?
+                                        <span className="flex">
+                                            <LoadingButtonClip />
+                                            Menyimpan...
+                                        </span>
+                                        :
+                                        "Simpan"
+                                    }
+                                </ButtonSky>
+                                <ButtonRed className="w-full my-3" onClick={onCancel}>
+                                    Batal
+                                </ButtonRed>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                </li>
             }
-        </li>
+        </React.Fragment>
     );
 };
 
@@ -545,7 +548,9 @@ export const FormAmbilPohon: React.FC<{
         reset
     } = useForm<FormValue>();
     const [KodeOpd, setKodeOpd] = useState<OptionTypeString | null>(null);
-    const [Pohon, setPohon] = useState<OptionType | null>(null);
+    const [PohonOpd, setPohonOpd] = useState<OptionType | null>(null);
+    const [Turunan, setTurunan] = useState<boolean>(false);
+
     const [Tahun, setTahun] = useState<any>(null);
     const [SelectedOpd, setSelectedOpd] = useState<any>(null);
     const [OpdOption, setOpdOption] = useState<OptionTypeString[]>([]);
@@ -643,15 +648,20 @@ export const FormAmbilPohon: React.FC<{
             setIsLoading(false);
         }
     };
+    const handleTurunan = () => {
+        if(Turunan){
+            setTurunan(false);
+        } else {
+            setTurunan(true);
+        }
+    }
 
     const onSubmit: SubmitHandler<FormValue> = async (data) => {
         const API_URL = process.env.NEXT_PUBLIC_API_URL;
         const formData = {
             //key : value
             id: data.pohon?.value,
-            jenis_pohon: (level === 0 || level === 1 || level === 2 || level === 3) ? "Strategic" :
-                level === 4 ? "Tactical" :
-                    level === 5 ? "Operational" : "Unknown",
+            turunan: Turunan,
             parent: id,
         };
         // console.log(formData);
@@ -665,14 +675,15 @@ export const FormAmbilPohon: React.FC<{
                 },
                 body: JSON.stringify(formData),
             });
-            if (response.ok) {
+            const result = await response.json();
+            if (result.code === 200 || result.code === 201) {
                 AlertNotification("Berhasil", "Berhasil menambahkan pohon", "success", 1000);
                 setIsAdded(true);
-                const result = await response.json();
                 const data = result.data;
                 setDataAdd(data);
+                console.log(result);
             } else {
-                AlertNotification("Gagal", "terdapat kesalahan pada backend / database server", "error", 2000);
+                AlertNotification("Gagal", `${result.data}`, "error", 2000);
             }
         } catch (err) {
             AlertNotification("Gagal", "cek koneksi internet/terdapat kesalahan pada database server", "error", 2000);
@@ -683,150 +694,173 @@ export const FormAmbilPohon: React.FC<{
     };
 
     return (
-        <li>
+        <React.Fragment>
             {IsAdded && DataAdd ?
-                <PohonEdited
+                <Pohon
                     tema={DataAdd}
                     deleteTrigger={() => setDeleted((prev) => !prev)}
                     set_show_all={() => null}
                 />
                 :
-                <div className="tf-nc tf flex flex-col w-[600px] rounded-lg shadow-lg shadow-slate-500">
-                    <div className="flex pt-3 justify-center font-bold text-lg uppercase border my-3 py-3 border-black rounded-lg">
-                        {(level === 0 || level === 1 || level === 2 || level === 3) &&
-                            <h1>Ambil Strategic </h1>
-                        }
-                        {level === 4 &&
-                            <h1>Ambil Tactical </h1>
-                        }
-                        {level === 5 &&
-                            <h1>Ambil Operational </h1>
-                        }
+                <li>
+                    <div className="tf-nc tf flex flex-col w-[600px] rounded-lg shadow-lg shadow-slate-500 form-ambil">
+                        <div className="flex pt-3 justify-center font-bold text-lg uppercase border my-3 py-3 border-black rounded-lg">
+                            {(level === 0 || level === 1 || level === 2 || level === 3) &&
+                                <h1>Ambil Strategic </h1>
+                            }
+                            {level === 4 &&
+                                <h1>Ambil Tactical </h1>
+                            }
+                            {level === 5 &&
+                                <h1>Ambil Operational </h1>
+                            }
+                        </div>
+                        <div className="flex justify-center my-3 w-full">
+                            <form
+                                onSubmit={handleSubmit(onSubmit)}
+                                className='w-full'
+                            >
+                                <div className="flex flex-col py-3">
+                                    <label
+                                        className="uppercase text-xs font-bold text-gray-700 my-2"
+                                        htmlFor="kode_opd"
+                                    >
+                                        Perangkat Daerah
+                                    </label>
+                                    <Controller
+                                        name="kode_opd"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <>
+                                                <Select
+                                                    {...field}
+                                                    placeholder="Masukkan Perangkat Daerah"
+                                                    value={KodeOpd}
+                                                    options={OpdOption}
+                                                    isLoading={isLoading}
+                                                    isSearchable
+                                                    isClearable
+                                                    onMenuOpen={() => {
+                                                        if (OpdOption.length === 0) {
+                                                            fetchOpd();
+                                                        }
+                                                    }}
+                                                    onChange={(option) => {
+                                                        field.onChange(option);
+                                                        setKodeOpd(option);
+                                                    }}
+                                                    styles={{
+                                                        control: (baseStyles) => ({
+                                                            ...baseStyles,
+                                                            borderRadius: '8px',
+                                                            textAlign: 'start',
+                                                        })
+                                                    }}
+                                                />
+                                            </>
+                                        )}
+                                    />
+                                </div>
+                                <div className="flex flex-col py-3">
+                                    <label
+                                        className="uppercase text-xs font-bold text-gray-700 my-2"
+                                        htmlFor="pohon"
+                                    >
+                                        {(level === 0 || level === 1 || level === 2 || level === 3) &&
+                                            <h1>Strategic</h1>
+                                        }
+                                        {level == 4 &&
+                                            <h1>Tactical</h1>
+                                        }
+                                        {level == 5 &&
+                                            <h1>Operational</h1>
+                                        }
+                                    </label>
+                                    <Controller
+                                        name="pohon"
+                                        control={control}
+                                        rules={{ required: "Pohon Harus Terisi" }}
+                                        render={({ field }) => (
+                                            <>
+                                                <Select
+                                                    {...field}
+                                                    placeholder="Pilih OPD terlebih dahulu"
+                                                    value={PohonOpd}
+                                                    options={PohonOption}
+                                                    isLoading={isLoading}
+                                                    isSearchable
+                                                    isClearable
+                                                    onMenuOpen={() => {
+                                                        if (KodeOpd?.value != null) {
+                                                            fetchPohon(KodeOpd?.value);
+                                                        } else if (KodeOpd?.value == null) {
+                                                            setPohonOption([]);
+                                                            setPohonOpd(null);
+                                                        }
+                                                    }}
+                                                    onChange={(option) => {
+                                                        field.onChange(option);
+                                                        setPohonOpd(option);
+                                                    }}
+                                                    styles={{
+                                                        control: (baseStyles) => ({
+                                                            ...baseStyles,
+                                                            borderRadius: '8px',
+                                                            textAlign: 'start',
+                                                        })
+                                                    }}
+                                                />
+                                                {errors.pohon ?
+                                                    <h1 className="text-red-500">
+                                                        {errors.pohon.message}
+                                                    </h1>
+                                                    :
+                                                    <h1 className="text-slate-300 text-xs">*Pohon Harus Terisi</h1>
+                                                }
+                                            </>
+                                        )}
+                                    />
+                                </div>
+                                <div className="flex flex-col items-center justify-center">
+                                    <div className="flex items-center justify-center gap-3 py-3">
+                                        {Turunan ?
+                                            <button
+                                                type="button"
+                                                onClick={handleTurunan}
+                                                className="w-[20px] h-[20px] bg-emerald-500 rounded-full text-white p-1 flex justify-center items-center"
+                                            >
+                                                <TbCheck />
+                                            </button>
+                                            :
+                                            <button
+                                                type="button"
+                                                onClick={handleTurunan}
+                                                className="w-[20px] h-[20px] border border-black rounded-full"
+                                            ></button>
+                                        }
+                                        <p onClick={handleTurunan} className={`cursor-pointer ${Turunan && 'text-emerald-500'}`}>Turunan</p>
+                                    </div>
+                                    <h1 className="text-slate-400 text-xs">*Jika di centang, turunan pohon tersebut akan ikut terambil</h1>
+                                </div>
+                                <ButtonSky type="submit" className="w-full my-3" disabled={Proses}>
+                                    {Proses ?
+                                        <span className="flex">
+                                            <LoadingButtonClip />
+                                            Menyimpan...
+                                        </span>
+                                        :
+                                        "Simpan"
+                                    }
+                                </ButtonSky>
+                                <ButtonRed className="w-full my-3" onClick={onCancel}>
+                                    Batal
+                                </ButtonRed>
+                            </form>
+                        </div>
                     </div>
-                    <div className="flex justify-center my-3 w-full">
-                        <form
-                            onSubmit={handleSubmit(onSubmit)}
-                            className='w-full'
-                        >
-                            <div className="flex flex-col py-3">
-                                <label
-                                    className="uppercase text-xs font-bold text-gray-700 my-2"
-                                    htmlFor="kode_opd"
-                                >
-                                    Perangkat Daerah
-                                </label>
-                                <Controller
-                                    name="kode_opd"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <>
-                                            <Select
-                                                {...field}
-                                                placeholder="Masukkan Perangkat Daerah"
-                                                value={KodeOpd}
-                                                options={OpdOption}
-                                                isLoading={isLoading}
-                                                isSearchable
-                                                isClearable
-                                                onMenuOpen={() => {
-                                                    if (OpdOption.length === 0) {
-                                                        fetchOpd();
-                                                    }
-                                                }}
-                                                onChange={(option) => {
-                                                    field.onChange(option);
-                                                    setKodeOpd(option);
-                                                }}
-                                                styles={{
-                                                    control: (baseStyles) => ({
-                                                        ...baseStyles,
-                                                        borderRadius: '8px',
-                                                        textAlign: 'start',
-                                                    })
-                                                }}
-                                            />
-                                        </>
-                                    )}
-                                />
-                            </div>
-                            <div className="flex flex-col py-3">
-                                <label
-                                    className="uppercase text-xs font-bold text-gray-700 my-2"
-                                    htmlFor="pohon"
-                                >
-                                    {(level === 0 || level === 1 || level === 2 || level === 3) &&
-                                        <h1>Strategic</h1>
-                                    }
-                                    {level == 4 &&
-                                        <h1>Tactical</h1>
-                                    }
-                                    {level == 5 &&
-                                        <h1>Operational</h1>
-                                    }
-                                </label>
-                                <Controller
-                                    name="pohon"
-                                    control={control}
-                                    rules={{ required: "Pohon Harus Terisi" }}
-                                    render={({ field }) => (
-                                        <>
-                                            <Select
-                                                {...field}
-                                                placeholder="Pilih OPD terlebih dahulu"
-                                                value={Pohon}
-                                                options={PohonOption}
-                                                isLoading={isLoading}
-                                                isSearchable
-                                                isClearable
-                                                onMenuOpen={() => {
-                                                    if (KodeOpd?.value != null) {
-                                                        fetchPohon(KodeOpd?.value);
-                                                    } else if (KodeOpd?.value == null) {
-                                                        setPohonOption([]);
-                                                        setPohon(null);
-                                                    }
-                                                }}
-                                                onChange={(option) => {
-                                                    field.onChange(option);
-                                                    setPohon(option);
-                                                }}
-                                                styles={{
-                                                    control: (baseStyles) => ({
-                                                        ...baseStyles,
-                                                        borderRadius: '8px',
-                                                        textAlign: 'start',
-                                                    })
-                                                }}
-                                            />
-                                            {errors.pohon ?
-                                                <h1 className="text-red-500">
-                                                    {errors.pohon.message}
-                                                </h1>
-                                                :
-                                                <h1 className="text-slate-300 text-xs">*Pohon Harus Terisi</h1>
-                                            }
-                                        </>
-                                    )}
-                                />
-                            </div>
-                            <ButtonSky type="submit" className="w-full my-3" disabled={Proses}>
-                                {Proses ?
-                                    <span className="flex">
-                                        <LoadingButtonClip />
-                                        Menyimpan...
-                                    </span>
-                                    :
-                                    "Simpan"
-                                }
-                            </ButtonSky>
-                            <ButtonRed className="w-full my-3" onClick={onCancel}>
-                                Batal
-                            </ButtonRed>
-                        </form>
-                    </div>
-                </div>
+                </li>
             }
-        </li>
+        </React.Fragment>
     );
 };
 
@@ -1046,16 +1080,16 @@ export const FormEditPohon: React.FC<{
                 },
                 body: JSON.stringify(formData),
             });
-            if (response.ok) {
+            const result = await response.json();
+            if (result.code === 200) {
                 AlertNotification("Berhasil", "Berhasil edit pohon", "success", 1000);
                 const berhasil = true;
-                const result = await response.json();
                 const data = result.data;
                 if (berhasil) {
                     EditBerhasil(data);
                 }
             } else {
-                AlertNotification("Gagal", "terdapat kesalahan pada backend / database server", "error", 2000);
+                AlertNotification("Gagal", `${result.data || 'terdapat kesalahan pada backend'}`, "error", 2000);
             }
         } catch (err) {
             AlertNotification("Gagal", "cek koneksi internet/terdapat kesalahan pada database server", "error", 2000);
@@ -1075,322 +1109,314 @@ export const FormEditPohon: React.FC<{
 
     return (
         <>
-            {IsEdited && DataEdit ?
-                <PohonEdited
-                    tema={DataEdit}
-                    deleteTrigger={() => setDeleted((prev) => !prev)}
-                    set_show_all={() => null}
-                />
-                :
-                <div className="tf-nc tf flex flex-col w-[600px] rounded-lg shadow-lg shadow-slate-500">
-                    <div className="flex pt-3 justify-center font-bold text-lg uppercase border my-3 py-3 border-black rounded-lg">
-                        {level == 0 &&
-                            <h1>Edit Tematik </h1>
-                        }
-                        {level == 1 &&
-                            <h1>Edit Sub Tematik </h1>
-                        }
-                        {level == 2 &&
-                            <h1>Edit Sub Sub Tematik </h1>
-                        }
-                        {level == 3 &&
-                            <h1>Edit Super Sub Tematik </h1>
-                        }
-                        {level == 4 &&
-                            <h1>Edit Strategic </h1>
-                        }
-                        {level == 5 &&
-                            <h1>Edit Tactical </h1>
-                        }
-                        {level == 6 &&
-                            <h1>Edit Operational </h1>
-                        }
-                    </div>
-                    <div className="flex justify-center my-3 w-full">
-                        <form
-                            onSubmit={handleSubmit(onSubmit)}
-                            className='w-full'
-                        >
-                            <div className="flex flex-col py-3">
-                                <label
-                                    className="uppercase text-xs font-bold text-gray-700 my-2"
-                                    htmlFor="nama_pohon"
-                                >
-                                    {level == 0 &&
-                                        "Tematik"
-                                    }
-                                    {level == 1 &&
-                                        "Sub Tematik"
-                                    }
-                                    {level == 2 &&
-                                        "Sub Sub Tematik"
-                                    }
-                                    {level == 3 &&
-                                        "Super Sub Tematik"
-                                    }
-                                    {level == 4 &&
-                                        "Strategic"
-                                    }
-                                    {level == 5 &&
-                                        "Tactical"
-                                    }
-                                    {level == 6 &&
-                                        "Operational"
-                                    }
-                                </label>
-                                <Controller
-                                    name="nama_pohon"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <input
-                                            {...field}
-                                            className="border px-4 py-2 rounded-lg"
-                                            id="nama_pohon"
-                                            type="text"
-                                            placeholder="masukkan Pohon"
-                                            value={field.value || NamaPohon}
-                                            onChange={(e) => {
-                                                field.onChange(e);
-                                                setNamaPohon(e.target.value);
-                                            }}
-                                        />
-                                    )}
-                                />
-                            </div>
-                            {(level == 4 || level == 5 || level == 6) &&
-                                <div className="flex flex-col py-3">
-                                    <label
-                                        className="uppercase text-xs font-bold text-gray-700 my-2"
-                                        htmlFor="kode_opd"
-                                    >
-                                        Perangkat Daerah
-                                    </label>
-                                    <Controller
-                                        name="kode_opd"
-                                        control={control}
-                                        render={({ field }) => (
-                                            <>
-                                                <Select
-                                                    {...field}
-                                                    placeholder="Masukkan Perangkat Daerah"
-                                                    value={KodeOpd}
-                                                    options={OpdOption}
-                                                    isLoading={isLoading}
-                                                    isSearchable
-                                                    isClearable
-                                                    onMenuOpen={() => {
-                                                        if (OpdOption.length === 0) {
-                                                            fetchOpd();
-                                                        }
-                                                    }}
-                                                    onChange={(option) => {
-                                                        field.onChange(option);
-                                                        setKodeOpd(option);
-                                                    }}
-                                                    styles={{
-                                                        control: (baseStyles) => ({
-                                                            ...baseStyles,
-                                                            borderRadius: '8px',
-                                                            textAlign: 'start',
-                                                        })
-                                                    }}
-                                                />
-                                            </>
-                                        )}
-                                    />
-                                </div>
-                            }
-                            {pokin === 'opd' &&
-                                <div className="flex flex-col py-3">
-                                    <label
-                                        className="uppercase text-xs font-bold text-gray-700 my-2"
-                                        htmlFor="pelaksana"
-                                    >
-                                        Pelaksana
-                                    </label>
-                                    <Controller
-                                        name="pelaksana"
-                                        control={control}
-                                        render={({ field }) => (
-                                            <>
-                                                <Select
-                                                    {...field}
-                                                    placeholder="Pilih Pelaksana (bisa lebih dari satu)"
-                                                    value={Pelaksana}
-                                                    options={PelaksanaOption}
-                                                    isLoading={isLoading}
-                                                    isSearchable
-                                                    isClearable
-                                                    isMulti
-                                                    onMenuOpen={() => {
-                                                        if (PelaksanaOption.length === 0) {
-                                                            fetchPelaksana();
-                                                        }
-                                                    }}
-                                                    onChange={(option) => {
-                                                        field.onChange(option || []);
-                                                        setPelaksana(option as OptionTypeString[]);
-                                                    }}
-                                                    styles={{
-                                                        control: (baseStyles) => ({
-                                                            ...baseStyles,
-                                                            borderRadius: '8px',
-                                                            textAlign: 'start',
-                                                        })
-                                                    }}
-                                                />
-                                            </>
-                                        )}
-                                    />
-                                </div>
-                            }
-                            <div className="flex flex-col py-3">
-                                <label
-                                    className="uppercase text-xs font-bold text-gray-700 my-2"
-                                    htmlFor="keterangan"
-                                >
-                                    Keterangan:
-                                </label>
-                                <Controller
-                                    name="keterangan"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <textarea
-                                            {...field}
-                                            className="border px-4 py-2 rounded-lg"
-                                            id="keterangan"
-                                            placeholder="masukkan keterangan"
-                                            value={field.value || Keterangan}
-                                            onChange={(e) => {
-                                                field.onChange(e);
-                                                setKeterangan(e.target.value);
-                                            }}
-                                        />
-                                    )}
-                                />
-                            </div>
-                            <label className="uppercase text-base font-bold text-gray-700 my-2">
-                                {
-                                    level == 0 ?
-                                        <h1>Indikator Tematik :</h1>
-                                        :
-                                        level == 1 ?
-                                            <h1>Indikator Sub Tematik :</h1>
-                                            :
-                                            level == 2 ?
-                                                <h1>Indikator Sub Sub Tematik :</h1>
-                                                :
-                                                level == 3 ?
-                                                    <h1>Indikator Super Sub Tematik :</h1>
-                                                    :
-                                                    level == 4 ?
-                                                        <h1>Indikator Strategic :</h1>
-                                                        :
-                                                        level == 5 ?
-                                                            <h1>Indikator Tactical :</h1>
-                                                            :
-                                                            level == 6 ?
-                                                                <h1>Indikator Operational :</h1>
-                                                                :
-                                                                level >= 6 ?
-                                                                    <h1>Indikator Operational N :</h1>
-                                                                    :
-                                                                    <h1>Indikator</h1>
+            <div className="tf-nc tf flex flex-col w-[600px] rounded-lg shadow-lg shadow-slate-500 form-edit-pohon">
+                <div className="flex pt-3 justify-center font-bold text-lg uppercase border my-3 py-3 border-black rounded-lg">
+                    {level == 0 &&
+                        <h1>Edit Tematik </h1>
+                    }
+                    {level == 1 &&
+                        <h1>Edit Sub Tematik </h1>
+                    }
+                    {level == 2 &&
+                        <h1>Edit Sub Sub Tematik </h1>
+                    }
+                    {level == 3 &&
+                        <h1>Edit Super Sub Tematik </h1>
+                    }
+                    {level == 4 &&
+                        <h1>Edit Strategic </h1>
+                    }
+                    {level == 5 &&
+                        <h1>Edit Tactical </h1>
+                    }
+                    {level == 6 &&
+                        <h1>Edit Operational </h1>
+                    }
+                </div>
+                <div className="flex justify-center my-3 w-full">
+                    <form
+                        onSubmit={handleSubmit(onSubmit)}
+                        className='w-full'
+                    >
+                        <div className="flex flex-col py-3">
+                            <label
+                                className="uppercase text-xs font-bold text-gray-700 my-2"
+                                htmlFor="nama_pohon"
+                            >
+                                {level == 0 &&
+                                    "Tematik"
+                                }
+                                {level == 1 &&
+                                    "Sub Tematik"
+                                }
+                                {level == 2 &&
+                                    "Sub Sub Tematik"
+                                }
+                                {level == 3 &&
+                                    "Super Sub Tematik"
+                                }
+                                {level == 4 &&
+                                    "Strategic"
+                                }
+                                {level == 5 &&
+                                    "Tactical"
+                                }
+                                {level == 6 &&
+                                    "Operational"
                                 }
                             </label>
-                            {fields.map((field, index) => (
-                                <div key={index} className="flex flex-col my-2 py-2 px-5 border rounded-lg">
-                                    <Controller
-                                        name={`indikator.${index}.nama_indikator`}
-                                        control={control}
-                                        defaultValue={field.nama_indikator}
-                                        render={({ field }) => (
-                                            <div className="flex flex-col py-3">
-                                                <label className="uppercase text-xs font-bold text-gray-700 mb-2">
-                                                    Nama Indikator {index + 1} :
-                                                </label>
-                                                <input
-                                                    {...field}
-                                                    className="border px-4 py-2 rounded-lg"
-                                                    placeholder={`Masukkan nama indikator ${index + 1}`}
-                                                />
-                                            </div>
-                                        )}
+                            <Controller
+                                name="nama_pohon"
+                                control={control}
+                                render={({ field }) => (
+                                    <input
+                                        {...field}
+                                        className="border px-4 py-2 rounded-lg"
+                                        id="nama_pohon"
+                                        type="text"
+                                        placeholder="masukkan Pohon"
+                                        value={field.value || NamaPohon}
+                                        onChange={(e) => {
+                                            field.onChange(e);
+                                            setNamaPohon(e.target.value);
+                                        }}
                                     />
-                                    {field.targets.map((_, subindex) => (
+                                )}
+                            />
+                        </div>
+                        {(level == 4 || level == 5 || level == 6) &&
+                            <div className="flex flex-col py-3">
+                                <label
+                                    className="uppercase text-xs font-bold text-gray-700 my-2"
+                                    htmlFor="kode_opd"
+                                >
+                                    Perangkat Daerah
+                                </label>
+                                <Controller
+                                    name="kode_opd"
+                                    control={control}
+                                    render={({ field }) => (
                                         <>
-                                            <Controller
-                                                name={`indikator.${index}.targets.${subindex}.target`}
-                                                control={control}
-                                                defaultValue={_.target}
-                                                render={({ field }) => (
-                                                    <div className="flex flex-col py-3">
-                                                        <label className="uppercase text-xs font-bold text-gray-700 mb-2">
-                                                            Target :
-                                                        </label>
-                                                        <input
-                                                            {...field}
-                                                            type="text"
-                                                            className="border px-4 py-2 rounded-lg"
-                                                            placeholder="Masukkan target"
-                                                        />
-                                                    </div>
-                                                )}
-                                            />
-                                            <Controller
-                                                name={`indikator.${index}.targets.${subindex}.satuan`}
-                                                control={control}
-                                                defaultValue={_.satuan}
-                                                render={({ field }) => (
-                                                    <div className="flex flex-col py-3">
-                                                        <label className="uppercase text-xs font-bold text-gray-700 mb-2">
-                                                            Satuan :
-                                                        </label>
-                                                        <input
-                                                            {...field}
-                                                            className="border px-4 py-2 rounded-lg"
-                                                            placeholder="Masukkan satuan"
-                                                        />
-                                                    </div>
-                                                )}
+                                            <Select
+                                                {...field}
+                                                placeholder="Masukkan Perangkat Daerah"
+                                                value={KodeOpd}
+                                                options={OpdOption}
+                                                isLoading={isLoading}
+                                                isSearchable
+                                                isClearable
+                                                onMenuOpen={() => {
+                                                    if (OpdOption.length === 0) {
+                                                        fetchOpd();
+                                                    }
+                                                }}
+                                                onChange={(option) => {
+                                                    field.onChange(option);
+                                                    setKodeOpd(option);
+                                                }}
+                                                styles={{
+                                                    control: (baseStyles) => ({
+                                                        ...baseStyles,
+                                                        borderRadius: '8px',
+                                                        textAlign: 'start',
+                                                    })
+                                                }}
                                             />
                                         </>
-                                    ))}
-                                    {index >= 0 && (
-                                        <ButtonRedBorder
-                                            type="button"
-                                            onClick={() => remove(index)}
-                                            className="w-[200px] my-3"
-                                        >
-                                            Hapus
-                                        </ButtonRedBorder>
                                     )}
-                                </div>
-                            ))}
-                            <ButtonSkyBorder
-                                className="mb-3 mt-2 w-full"
-                                type="button"
-                                onClick={() => append({ nama_indikator: "", targets: [{ target: "", satuan: "" }] })}
+                                />
+                            </div>
+                        }
+                        {pokin === 'opd' &&
+                            <div className="flex flex-col py-3">
+                                <label
+                                    className="uppercase text-xs font-bold text-gray-700 my-2"
+                                    htmlFor="pelaksana"
+                                >
+                                    Pelaksana
+                                </label>
+                                <Controller
+                                    name="pelaksana"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <>
+                                            <Select
+                                                {...field}
+                                                placeholder="Pilih Pelaksana (bisa lebih dari satu)"
+                                                value={Pelaksana}
+                                                options={PelaksanaOption}
+                                                isLoading={isLoading}
+                                                isSearchable
+                                                isClearable
+                                                isMulti
+                                                onMenuOpen={() => {
+                                                    if (PelaksanaOption.length === 0) {
+                                                        fetchPelaksana();
+                                                    }
+                                                }}
+                                                onChange={(option) => {
+                                                    field.onChange(option || []);
+                                                    setPelaksana(option as OptionTypeString[]);
+                                                }}
+                                                styles={{
+                                                    control: (baseStyles) => ({
+                                                        ...baseStyles,
+                                                        borderRadius: '8px',
+                                                        textAlign: 'start',
+                                                    })
+                                                }}
+                                            />
+                                        </>
+                                    )}
+                                />
+                            </div>
+                        }
+                        <div className="flex flex-col py-3">
+                            <label
+                                className="uppercase text-xs font-bold text-gray-700 my-2"
+                                htmlFor="keterangan"
                             >
-                                Tambah Indikator
-                            </ButtonSkyBorder>
-                            <ButtonSky type="submit" className="w-full my-3" disabled={Proses}>
-                                {Proses ?
-                                    <span className="flex">
-                                        <LoadingButtonClip />
-                                        Menyimpan...
-                                    </span>
+                                Keterangan:
+                            </label>
+                            <Controller
+                                name="keterangan"
+                                control={control}
+                                render={({ field }) => (
+                                    <textarea
+                                        {...field}
+                                        className="border px-4 py-2 rounded-lg"
+                                        id="keterangan"
+                                        placeholder="masukkan keterangan"
+                                        value={field.value || Keterangan}
+                                        onChange={(e) => {
+                                            field.onChange(e);
+                                            setKeterangan(e.target.value);
+                                        }}
+                                    />
+                                )}
+                            />
+                        </div>
+                        <label className="uppercase text-base font-bold text-gray-700 my-2">
+                            {
+                                level == 0 ?
+                                    <h1>Indikator Tematik :</h1>
                                     :
-                                    "Simpan"
-                                }
-                            </ButtonSky>
-                            <ButtonRed className="w-full my-3" onClick={onCancel}>
-                                Batal
-                            </ButtonRed>
-                        </form>
-                    </div>
+                                    level == 1 ?
+                                        <h1>Indikator Sub Tematik :</h1>
+                                        :
+                                        level == 2 ?
+                                            <h1>Indikator Sub Sub Tematik :</h1>
+                                            :
+                                            level == 3 ?
+                                                <h1>Indikator Super Sub Tematik :</h1>
+                                                :
+                                                level == 4 ?
+                                                    <h1>Indikator Strategic :</h1>
+                                                    :
+                                                    level == 5 ?
+                                                        <h1>Indikator Tactical :</h1>
+                                                        :
+                                                        level == 6 ?
+                                                            <h1>Indikator Operational :</h1>
+                                                            :
+                                                            level >= 6 ?
+                                                                <h1>Indikator Operational N :</h1>
+                                                                :
+                                                                <h1>Indikator</h1>
+                            }
+                        </label>
+                        {fields.map((field, index) => (
+                            <div key={index} className="flex flex-col my-2 py-2 px-5 border rounded-lg">
+                                <Controller
+                                    name={`indikator.${index}.nama_indikator`}
+                                    control={control}
+                                    defaultValue={field.nama_indikator}
+                                    render={({ field }) => (
+                                        <div className="flex flex-col py-3">
+                                            <label className="uppercase text-xs font-bold text-gray-700 mb-2">
+                                                Nama Indikator {index + 1} :
+                                            </label>
+                                            <input
+                                                {...field}
+                                                className="border px-4 py-2 rounded-lg"
+                                                placeholder={`Masukkan nama indikator ${index + 1}`}
+                                            />
+                                        </div>
+                                    )}
+                                />
+                                {field.targets.map((_, subindex) => (
+                                    <>
+                                        <Controller
+                                            name={`indikator.${index}.targets.${subindex}.target`}
+                                            control={control}
+                                            defaultValue={_.target}
+                                            render={({ field }) => (
+                                                <div className="flex flex-col py-3">
+                                                    <label className="uppercase text-xs font-bold text-gray-700 mb-2">
+                                                        Target :
+                                                    </label>
+                                                    <input
+                                                        {...field}
+                                                        type="text"
+                                                        className="border px-4 py-2 rounded-lg"
+                                                        placeholder="Masukkan target"
+                                                    />
+                                                </div>
+                                            )}
+                                        />
+                                        <Controller
+                                            name={`indikator.${index}.targets.${subindex}.satuan`}
+                                            control={control}
+                                            defaultValue={_.satuan}
+                                            render={({ field }) => (
+                                                <div className="flex flex-col py-3">
+                                                    <label className="uppercase text-xs font-bold text-gray-700 mb-2">
+                                                        Satuan :
+                                                    </label>
+                                                    <input
+                                                        {...field}
+                                                        className="border px-4 py-2 rounded-lg"
+                                                        placeholder="Masukkan satuan"
+                                                    />
+                                                </div>
+                                            )}
+                                        />
+                                    </>
+                                ))}
+                                {index >= 0 && (
+                                    <ButtonRedBorder
+                                        type="button"
+                                        onClick={() => remove(index)}
+                                        className="w-[200px] my-3"
+                                    >
+                                        Hapus
+                                    </ButtonRedBorder>
+                                )}
+                            </div>
+                        ))}
+                        <ButtonSkyBorder
+                            className="mb-3 mt-2 w-full"
+                            type="button"
+                            onClick={() => append({ nama_indikator: "", targets: [{ target: "", satuan: "" }] })}
+                        >
+                            Tambah Indikator
+                        </ButtonSkyBorder>
+                        <ButtonSky type="submit" className="w-full my-3" disabled={Proses}>
+                            {Proses ?
+                                <span className="flex">
+                                    <LoadingButtonClip />
+                                    Menyimpan...
+                                </span>
+                                :
+                                "Simpan"
+                            }
+                        </ButtonSky>
+                        <ButtonRed className="w-full my-3" onClick={onCancel}>
+                            Batal
+                        </ButtonRed>
+                    </form>
                 </div>
-            }
+            </div>
         </>
     );
 };
